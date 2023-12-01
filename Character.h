@@ -23,7 +23,6 @@ private:
     int damage;
     int speed;
 
-
 public:
     int getDamage() const;
     int getSpeed() const;

@@ -32,38 +32,40 @@ void TestLab1(Manager MainM){
     MainM.createField(N, N, 2, 1);
     cout << "Current level=" << MainM.CurrentLevel << endl;
     PrintField(MainM.gameField);
-    hero.diceResults();
+    MainM.gameField->hero->diceResults();
     cout << "Hero status:" << endl;
-    cout << "Position: (" << hero.getX() << ", " << hero.getY() << "), Health: " << hero.getHealth()
-         << ", Damage: " << hero.getDamage() << ", Protection: " << hero.getProtection()
-         << ", Speed: " << hero.getSpeed() << ", Distance: " << hero.getDistance() << std::endl;
+    cout << "Position: (" << MainM.gameField->hero->getX() << ", " << MainM.gameField->hero->getY() << "), Health: " << MainM.gameField->hero->getHealth()
+         << ", Damage: " << MainM.gameField->hero->getDamage() << ", Protection: " << MainM.gameField->hero->getProtection()
+         << ", Speed: " << MainM.gameField->hero->getSpeed() << ", Distance: " << MainM.gameField->hero->getDistance() << std::endl;
     cout << endl;
 
     cout << "Monster status:" << endl;
-    cout << "Position: (" << monster.getX() << ", " << monster.getY() << "), Health: " << monster.getHealth()
-         << ", Damage: " << monster.getDamage() << ", Protection: " << monster.getProtection()
-         << ", Speed: " << monster.getSpeed() << ", Active: " << (monster.isActive() ? "Yes" : "No") << std::endl;
+    cout << "Position: (" << MainM.gameField->monster->getX() << ", " << MainM.gameField->monster->getY() << "), Health: " << MainM.gameField->monster->getHealth()
+         << ", Damage: " << MainM.gameField->monster->getDamage() << ", Protection: " << MainM.gameField->monster->getProtection()
+         << ", Speed: " << MainM.gameField->monster->getSpeed() << ", Active: " << (MainM.gameField->monster->isActive() ? "Yes" : "No") << std::endl;
     cout << endl;
 
     cout << "Hero attacks the monster" << endl;
-    hero.attack(monster, MainM.gameField);
+    MainM.gameField->hero->attack(*MainM.gameField->monster, MainM.gameField);
+
 
     // Print the status after the attack
     cout << "Monster status after attack:" << endl;
-    cout << "Position: (" << monster.getX() << ", " << monster.getY() << "), Health: " << monster.getHealth()
-         << ", Damage: " << monster.getDamage() << ", Protection: " << monster.getProtection()
-         << ", Speed: " << monster.getSpeed() << ", Active: " << (monster.isActive() ? "Yes" : "No") << std::endl;
+    cout << "Position: (" << MainM.gameField->monster->getX() << ", " << MainM.gameField->monster->getY() << "), Health: " << MainM.gameField->monster->getHealth()
+         << ", Damage: " << MainM.gameField->monster->getDamage() << ", Protection: " << MainM.gameField->monster->getProtection()
+         << ", Speed: " << MainM.gameField->monster->getSpeed() << ", Active: " << (MainM.gameField->monster->isActive() ? "Yes" : "No") << std::endl;
     cout << endl;
 
-    cout << "Monster counterattacks" << endl;
-    Monster::MonsterContainer monsters = {monster};
-    monster.calculateMonsterAttack(hero, monsters);
 
-// Print the status after the monster's attack
+
+    cout << "Monster counterattacks" << endl;
+    Monster::MonsterContainer monsters = {*MainM.gameField->monster};
+    MainM.gameField->monster->calculateMonsterAttack(*MainM.gameField->hero, monsters);
+
     cout << "Hero status after attack:" << endl;
-    cout << "Position: (" << hero.getX() << ", " << hero.getY() << "), Health: " << hero.getHealth()
-         << ", Damage: " << hero.getDamage() << ", Protection: " << hero.getProtection()
-         << ", Speed: " << hero.getSpeed() << ", Distance: " << hero.getDistance() << std::endl;
+    cout << "Position: (" << MainM.gameField->hero->getX() << ", " << MainM.gameField->hero->getY() << "), Health: " << MainM.gameField->hero->getHealth()
+         << ", Damage: " << MainM.gameField->hero->getDamage() << ", Protection: " << MainM.gameField->hero->getProtection()
+         << ", Speed: " << MainM.gameField->hero->getSpeed() << ", Distance: " << MainM.gameField->hero->getDistance() << std::endl;
     cout << endl;
 
     if (!monster.isActive()) {

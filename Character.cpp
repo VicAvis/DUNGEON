@@ -112,11 +112,9 @@ void Hero::attack(Monster& target, Field* gameField) {
                 gameField->moveUnit(target, -1, -1);
             }
         } else {
-            // Handle the case when hero's damage is not enough
         }
     }
 }
-
 
 void Hero::restoreHealth() { setHealth(maxValue); }
 
@@ -132,6 +130,7 @@ Monster::Monster() noexcept {
     setHealth(currentLevel + 2);
     setX(0);
     setY(0);
+    setActive(true);
 }
 
 using MonsterContainer = std::array<Monster, 1>;
