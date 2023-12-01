@@ -7,12 +7,13 @@ private:
     int width;
     int height;
     Cell** cells;
-    Hero* hero;
+    
     Monster* monster;
     bool isCellFreeAroundHero(int heroX, int heroY) const;
     friend void PrintField(Field*);
 
 public:
+    Hero* hero;
     Field(int m, int n);
     bool isWithinBounds(int x, int y) const; // було private
     void placeHero();

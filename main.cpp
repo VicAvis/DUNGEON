@@ -34,9 +34,9 @@ void TestLab1(Manager MainM){
     PrintField(MainM.gameField);
     hero.diceResults();
     cout << "Hero status:" << endl;
-    cout << "Position: (" << hero.getX() << ", " << hero.getY() << "), Health: " << hero.getHealth()
-         << ", Damage: " << hero.getDamage() << ", Protection: " << hero.getProtection()
-         << ", Speed: " << hero.getSpeed() << ", Distance: " << hero.getDistance() << std::endl;
+    cout << "Position: (" << MainM.gameField->hero->getX() << ", " << MainM.gameField->hero->getY() << "), Health: " << MainM.gameField->hero->getHealth()
+         << ", Damage: " << MainM.gameField->hero->getDamage() << ", Protection: " << MainM.gameField->hero->getProtection()
+         << ", Speed: " << MainM.gameField->hero->getSpeed() << ", Distance: " << MainM.gameField->hero->getDistance() << std::endl;
     cout << endl;
 
     cout << "Monster status:" << endl;
@@ -61,9 +61,9 @@ void TestLab1(Manager MainM){
 
 // Print the status after the monster's attack
     cout << "Hero status after attack:" << endl;
-    cout << "Position: (" << hero.getX() << ", " << hero.getY() << "), Health: " << hero.getHealth()
-         << ", Damage: " << hero.getDamage() << ", Protection: " << hero.getProtection()
-         << ", Speed: " << hero.getSpeed() << ", Distance: " << hero.getDistance() << std::endl;
+    cout << "Position: (" << MainM.gameField->hero->getX() << ", " << MainM.gameField->hero->getY() << "), Health: " << MainM.gameField->hero->getHealth()
+         << ", Damage: " << MainM.gameField->hero->getDamage() << ", Protection: " << MainM.gameField->hero->getProtection()
+         << ", Speed: " << MainM.gameField->hero->getSpeed() << ", Distance: " << MainM.gameField->hero->getDistance() << std::endl;
     cout << endl;
 
     if (!monster.isActive()) {
