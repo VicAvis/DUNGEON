@@ -1,0 +1,3 @@
+C:/Users/4use/Desktop/my folder/Університет/гітхаб/OOP_Project_tb/OOP_Lab/OOP_Lab/cmake-build-debug/CMakeFiles/OOP_Lab.dir
+C:/Users/4use/Desktop/my folder/Університет/гітхаб/OOP_Project_tb/OOP_Lab/OOP_Lab/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/4use/Desktop/my folder/Університет/гітхаб/OOP_Project_tb/OOP_Lab/OOP_Lab/cmake-build-debug/CMakeFiles/rebuild_cache.dir

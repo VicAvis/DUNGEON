@@ -1,0 +1,13 @@
+# ninja log v5
+7	145	7231646600361998	CMakeFiles/OOP_Lab.dir/Cell.cpp.obj	4c61facd65972328
+14	459	7231646603685841	CMakeFiles/OOP_Lab.dir/Field.cpp.obj	c59ec673e3461d1c
+2	454	7231646603665839	CMakeFiles/OOP_Lab.dir/Character.cpp.obj	bb04337c07a9a6ee
+10	439	7231646603504652	CMakeFiles/OOP_Lab.dir/Manager.cpp.obj	ac58c70ae48e5f1
+17	1408	7231646613216057	CMakeFiles/OOP_Lab.dir/main.cpp.obj	a30d0578007a5a62
+1408	1483	7231646613929116	OOP_Lab.exe	a7c5f31e5acfa980
+4	125	7231648038228523	CMakeFiles/OOP_Lab.dir/Cell.cpp.obj	de6dd0c2bfc95a47
+34	427	7231648041286472	CMakeFiles/OOP_Lab.dir/Manager.cpp.obj	323aeb35e24c492
+15	429	7231648041296478	CMakeFiles/OOP_Lab.dir/Character.cpp.obj	b21352c89c2500b2
+21	451	7231648041517029	CMakeFiles/OOP_Lab.dir/Field.cpp.obj	e2209b2507573297
+9	1255	7231648049575584	CMakeFiles/OOP_Lab.dir/main.cpp.obj	881ffeaa58459495
+1256	1320	7231648050195225	OOP_Lab.exe	a7c5f31e5acfa980
