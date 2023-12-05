@@ -37,10 +37,7 @@ void Field::placeHero() {
 }
 
 void Field::moveUnit(Character& unit, int new_x, int new_y) {
-    // Remove the unit from its current position
     cells[unit.getY()][unit.getX()].setUnitPresent(false);
-
-    // Update the unit's position on the field
     cells[new_y][new_x].setUnitPresent(true);
 }
 
@@ -61,12 +58,12 @@ void Field::placeNearHero() {
     int heroX = hero->getX();
     int heroY = hero->getY();
 
-    for (int dx = -1; dx <= 1; ++dx) {
-        for (int dy = -1; dy <= 1; ++dy) {
-            if (dx == 0 && dy == 0) continue;
+    for (int x = -2; x <= 2; ++x) {
+        for (int y = -2; y <= 2; ++y) {
+            if (x == 0 && y == 0) continue;
 
-            int newX = heroX + dx;
-            int newY = heroY + dy;
+            int newX = heroX + x;
+            int newY = heroY + y;
 
             if (isWithinBounds(newX, newY) && freeCell(newX, newY)) {
                 monster->setX(newX);

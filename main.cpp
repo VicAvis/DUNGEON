@@ -32,46 +32,48 @@ void TestLab1(Manager MainM){
     MainM.createField(N, N, 2, 1);
     cout << "Current level=" << MainM.CurrentLevel << endl;
     PrintField(MainM.gameField);
+    cout << "Hero status:" << endl;
+    cout << "position: (" << MainM.gameField->hero->getX() << ", " << MainM.gameField->hero->getY() << "), health: " << MainM.gameField->hero->getHealth()
+         << ", damage: " << MainM.gameField->hero->getDamage() << ", protection: " << MainM.gameField->hero->getProtection()
+         << ", speed: " << MainM.gameField->hero->getSpeed() << ", distance: " << MainM.gameField->hero->getDistance() << std::endl;
+    cout << endl;
+
     MainM.gameField->hero->diceResults();
     cout << "Hero status:" << endl;
-    cout << "Position: (" << MainM.gameField->hero->getX() << ", " << MainM.gameField->hero->getY() << "), Health: " << MainM.gameField->hero->getHealth()
-         << ", Damage: " << MainM.gameField->hero->getDamage() << ", Protection: " << MainM.gameField->hero->getProtection()
-         << ", Speed: " << MainM.gameField->hero->getSpeed() << ", Distance: " << MainM.gameField->hero->getDistance() << std::endl;
+    cout << "position: (" << MainM.gameField->hero->getX() << ", " << MainM.gameField->hero->getY() << "), health: " << MainM.gameField->hero->getHealth()
+         << ", damage: " << MainM.gameField->hero->getDamage() << ", protection: " << MainM.gameField->hero->getProtection()
+         << ", speed: " << MainM.gameField->hero->getSpeed() << ", distance: " << MainM.gameField->hero->getDistance() << std::endl;
     cout << endl;
 
     cout << "Monster status:" << endl;
-    cout << "Position: (" << MainM.gameField->monster->getX() << ", " << MainM.gameField->monster->getY() << "), Health: " << MainM.gameField->monster->getHealth()
-         << ", Damage: " << MainM.gameField->monster->getDamage() << ", Protection: " << MainM.gameField->monster->getProtection()
-         << ", Speed: " << MainM.gameField->monster->getSpeed() << ", Active: " << (MainM.gameField->monster->isActive() ? "Yes" : "No") << std::endl;
+    cout << "position: (" << MainM.gameField->monster->getX() << ", " << MainM.gameField->monster->getY() << "), health: " << MainM.gameField->monster->getHealth()
+         << ", damage: " << MainM.gameField->monster->getDamage() << ", protection: " << MainM.gameField->monster->getProtection()
+         << ", speed: " << MainM.gameField->monster->getSpeed() << ", active: " << (MainM.gameField->monster->isActive() ? "yes" : "no") << std::endl;
     cout << endl;
 
     cout << "Hero attacks the monster" << endl;
     MainM.gameField->hero->attack(*MainM.gameField->monster, MainM.gameField);
 
-
-    // Print the status after the attack
     cout << "Monster status after attack:" << endl;
-    cout << "Position: (" << MainM.gameField->monster->getX() << ", " << MainM.gameField->monster->getY() << "), Health: " << MainM.gameField->monster->getHealth()
-         << ", Damage: " << MainM.gameField->monster->getDamage() << ", Protection: " << MainM.gameField->monster->getProtection()
-         << ", Speed: " << MainM.gameField->monster->getSpeed() << ", Active: " << (MainM.gameField->monster->isActive() ? "Yes" : "No") << std::endl;
+    cout << "position: (" << MainM.gameField->monster->getX() << ", " << MainM.gameField->monster->getY() << "), health: " << MainM.gameField->monster->getHealth()
+         << ", damage: " << MainM.gameField->monster->getDamage() << ", protection: " << MainM.gameField->monster->getProtection()
+         << ", speed: " << MainM.gameField->monster->getSpeed() << ", active: " << (MainM.gameField->monster->isActive() ? "yes" : "no") << std::endl;
     cout << endl;
-
-
 
     cout << "Monster counterattacks" << endl;
     Monster::MonsterContainer monsters = {*MainM.gameField->monster};
     MainM.gameField->monster->calculateMonsterAttack(*MainM.gameField->hero, monsters);
 
     cout << "Hero status after attack:" << endl;
-    cout << "Position: (" << MainM.gameField->hero->getX() << ", " << MainM.gameField->hero->getY() << "), Health: " << MainM.gameField->hero->getHealth()
-         << ", Damage: " << MainM.gameField->hero->getDamage() << ", Protection: " << MainM.gameField->hero->getProtection()
-         << ", Speed: " << MainM.gameField->hero->getSpeed() << ", Distance: " << MainM.gameField->hero->getDistance() << std::endl;
+    cout << "position: (" << MainM.gameField->hero->getX() << ", " << MainM.gameField->hero->getY() << "), health: " << MainM.gameField->hero->getHealth()
+         << ", damage: " << MainM.gameField->hero->getDamage() << ", protection: " << MainM.gameField->hero->getProtection()
+         << ", speed: " << MainM.gameField->hero->getSpeed() << ", distance: " << MainM.gameField->hero->getDistance() << std::endl;
     cout << endl;
 
     if (!monster.isActive()) {
-        cout << "Monster defeated!" << endl;
+        cout << "Monster is dead" << endl;
     } else {
-        cout << "Monster still active." << endl;
+        cout << "Monster is still active" << endl;
     }
 }
 

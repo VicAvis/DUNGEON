@@ -14,7 +14,7 @@ public:
     Hero* hero;
     Monster* monster;
     Field(int m, int n);
-    bool isWithinBounds(int x, int y) const; // було private
+    bool isWithinBounds(int x, int y) const;
     void placeHero();
     void placeObstacles(int obstacleCount);
     void placeMonsters(int monsterCount);
