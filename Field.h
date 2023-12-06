@@ -17,7 +17,6 @@ public:
     bool isWithinBounds(int x, int y) const;
     void placeHero();
     void placeObstacles(int obstacleCount);
-    void placeMonsters(int monsterCount);
     bool freeCell(int x, int y) const;
     // Copy Constructor
     Field(const Field& other);
@@ -32,4 +31,6 @@ public:
     void moveUnit(Character &unit, int new_x, int new_y);
 
     void placeNearHero();
+
+    bool isCellFreeAroundMonster(int X, int Y) const;
 };

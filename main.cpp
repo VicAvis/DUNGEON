@@ -51,6 +51,10 @@ void TestLab1(Manager MainM){
          << ", speed: " << MainM.gameField->monster->getSpeed() << ", active: " << (MainM.gameField->monster->isActive() ? "yes" : "no") << std::endl;
     cout << endl;
 
+
+    // They should move to each other before the attack
+
+
     cout << "Hero attacks the monster" << endl;
     MainM.gameField->hero->attack(*MainM.gameField->monster, MainM.gameField);
 
