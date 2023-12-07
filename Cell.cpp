@@ -37,8 +37,6 @@ Cell& Cell::operator=(Cell&& other) noexcept {
     return *this;
 }
 
-// Rest of your existing code
-
 Cell::Cell() : isObstacle(false), isUnitPresent(false) {}
 
 void Cell::setObstacle(bool obstacle) {

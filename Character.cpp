@@ -16,7 +16,6 @@ int Character::getY() const { return char_y; }
 void Character::setX(int x) { char_x = x; }
 void Character::setY(int y) { char_y = y; }
 
-
 void Character::setDamage(int value) { damage = value; }
 int Character::getDamage() const { return damage; }
 int Character::getSpeed() const { return speed; }
@@ -32,12 +31,12 @@ void Character::reduceHealth(int amount) {
 int Hero::getDistance() const { return distance; }
 
 Hero::Hero() noexcept
-        : Character(),
-          distance(2) {
-    setSpeed(startValue);
+        : Character(){
+    setDistance(2);
+    setSpeed(maxValue);
     setHealth(maxValue);
-    setProtection(startValue);
-    setDamage(startValue);
+    setProtection(3);
+    setDamage(maxValue);
 }
 
 void Character::increaseDamage(int amount) { setDamage(getDamage() + amount); }
@@ -51,28 +50,29 @@ void Hero::diceResults() {
     setProtection(getProtection() + (rand() % 6 + 1));
 }
 
-int Hero::move(int new_x, int new_y, Field* gameField){
+int Hero::move(int new_x, int new_y, Field* gameField) {
     if (gameField->freeCell(new_x, new_y)) {
         int deltaX = std::abs(new_x - getX());
-        int deltaY = std::abs(new_y - getY()); // герой витрачає очки швидкості для пересування, якщо по діагоналі на одну то мінус 3, а так мінус 2
+        int deltaY = std::abs(new_y - getY());
 
         int moveCost = 0;
-        if (deltaX == deltaY){ // diagonal
-            if (deltaX == 1 && deltaY == 1){
+        if (deltaX == deltaY) { // diagonal
+            if (deltaX == 1 && deltaY == 1) {
                 moveCost = 3; // move 1 cell - 3 points
-            }
-            else{
+            } else {
                 moveCost = 3 + (deltaX - 1); // move by more cells
             }
-        }
-        else { // straight movement
+        } else { // straight movement
             moveCost = std::max(deltaX, deltaY) + 1;
         }
+
         int curSpeed = getSpeed();
         if (curSpeed >= moveCost) {
-            setX(new_x);
+            gameField->eraseContent(getX(),getY()); // затерли клітинку
+            setX(new_x); // встановили нові координати
             setY(new_y);
-            gameField->moveUnit(*this, new_x, new_y);
+            gameField->moveHero(new_x,new_y); // оновили поле
+
             curSpeed -= moveCost;
         }
         return moveCost;
@@ -81,6 +81,7 @@ int Hero::move(int new_x, int new_y, Field* gameField){
 }
 
 void Hero::attack(Monster& target, Field* gameField) {
+
     int target_x = target.getX();
     int target_y = target.getY();
 
@@ -95,10 +96,12 @@ void Hero::attack(Monster& target, Field* gameField) {
             moveCost = 3 + (deltaX - 1); // move by more cells
         }
     } else { // straight movement
-        moveCost = std::max(deltaX, deltaY) + 1;
+        if (!deltaX || !deltaY) {
+            moveCost = std::max(deltaX, deltaY) + 1;
+        } else {}
     }
-
     if (moveCost <= getDistance()) {
+
         int damageNeeded = target.getProtection();
 
         // check if the hero has enough damage points to attack
@@ -108,8 +111,7 @@ void Hero::attack(Monster& target, Field* gameField) {
 
             if (target.getHealth() <= 0) {
                 target.setHealth(0);
-                target.setActive(false);
-                gameField->moveUnit(target, -1, -1);
+                gameField->eraseContent(target.getX(),target.getY());
             }
         } else {
         }
@@ -123,11 +125,10 @@ void Monster::setActive(bool active) {this->active = active; }
 
 Monster::Monster() noexcept {
     Manager main;
-    int currentLevel = main.getCurrentLevel();
-    setSpeed(currentLevel + 2);
-    setProtection(currentLevel + 5);
-    setDamage(currentLevel + 1);
-    setHealth(currentLevel + 2);
+    setSpeed(6);
+    setProtection(1);
+    setDamage(12);
+    setHealth(10);
     setX(0);
     setY(0);
     setActive(true);
@@ -138,10 +139,28 @@ using MonsterContainer = std::array<Monster, 1>;
 void Monster::calculateMonsterAttack(Hero& hero, MonsterContainer& monsters) {
     for (auto& monster : monsters) {
         int monsterDistance = std::max(std::abs(hero.getX() - monster.getX()), std::abs(hero.getY() - monster.getY()));
-        int totalAttack = (monsterDistance <= hero.getDistance()) ? monster.getDamage() : 0;
+
+        int totalAttack;
+        if(monster.isActive()){
+            if (monsterDistance <= hero.getDistance()) {
+                totalAttack = monster.getDamage();
+            } else {
+                totalAttack = 0;
+            }
+        }
+        else{
+            return;
+        }
 
         int heroDefense = hero.getProtection();
-        int damage = (totalAttack > heroDefense) ? (totalAttack - heroDefense) : 0;
+        int damage;
+
+        if (totalAttack > heroDefense) {
+            damage = totalAttack - heroDefense;
+        } else {
+            damage = 0;
+        }
+
         hero.reduceHealth(damage);
     }
 }

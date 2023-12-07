@@ -32,5 +32,7 @@ public:
 
     void placeNearHero();
 
-    bool isCellFreeAroundMonster(int X, int Y) const;
+    void eraseContent(int x, int y);
+
+    void moveHero(int x, int y);
 };

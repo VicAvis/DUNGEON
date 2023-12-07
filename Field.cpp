@@ -5,6 +5,18 @@ bool Field::isWithinBounds(int x, int y) const {
     return x >= 0 && x < width && y >= 0 && y < height;
 }
 
+void Field::moveHero(int x, int y) {
+    if (isWithinBounds(x, y)) {
+        cells[y][x].setUnitPresent(true);
+    }
+}
+void Field::eraseContent(int x, int y) {
+    if (isWithinBounds(x, y)) {
+        cells[y][x].setObstacle(false);
+        cells[y][x].setUnitPresent(false);
+    }
+}
+
 bool Field::isCellFreeAroundHero(int heroX, int heroY) const {
     for (int dx = -1; dx <= 1; ++dx) {
         for (int dy = -1; dy <= 1; ++dy) {
@@ -40,7 +52,6 @@ void Field::moveUnit(Character& unit, int new_x, int new_y) {
     cells[unit.getY()][unit.getX()].setUnitPresent(false);
     cells[new_y][new_x].setUnitPresent(true);
 }
-
 
 void Field::placeObstacles(int obstacleCount) {
     for (int i = 0; i < obstacleCount; ++i) {

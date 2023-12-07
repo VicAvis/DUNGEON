@@ -10,14 +10,19 @@ using std::cout;
 using std::endl;
 using std::setw;
 
-const int N = 5;
+const int FIELD_SIZE = 5;
 
-void PrintField(Field* MainF) {
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            if (MainF->cells[i][j].hasObstacle())
+struct Position {
+    int x;
+    int y;
+};
+
+void PrintField(Field* field) {
+    for (int i = 0; i < FIELD_SIZE; i++) {
+        for (int j = 0; j < FIELD_SIZE; j++) {
+            if (field->cells[i][j].hasObstacle())
                 cout << setw(3) << 'x';
-            else if (MainF->cells[i][j].hasUnitPresent())
+            else if (field->cells[i][j].hasUnitPresent())
                 cout << setw(3) << 'u';
             else
                 cout << setw(3) << 0;
@@ -26,66 +31,61 @@ void PrintField(Field* MainF) {
     }
 }
 
-void TestLab1(Manager MainM){
+void display(const string& title, Character* character) {
+    cout << title << ":" << endl;
+    cout << "position: (" << character->getX() << ", " << character->getY() << "), health: " << character->getHealth()
+         << ", damage: " << character->getDamage() << ", protection: " << character->getProtection()
+         << ", speed: " << character->getSpeed();
+}
+
+void TestLab1(Manager mainManager) {
     Monster monster;
     Hero hero;
-    MainM.createField(N, N, 2, 1);
-    cout << "Current level=" << MainM.CurrentLevel << endl;
-    PrintField(MainM.gameField);
-    cout << "Hero status:" << endl;
-    cout << "position: (" << MainM.gameField->hero->getX() << ", " << MainM.gameField->hero->getY() << "), health: " << MainM.gameField->hero->getHealth()
-         << ", damage: " << MainM.gameField->hero->getDamage() << ", protection: " << MainM.gameField->hero->getProtection()
-         << ", speed: " << MainM.gameField->hero->getSpeed() << ", distance: " << MainM.gameField->hero->getDistance() << std::endl;
+
+    mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, 1);
+
+    cout << "Current level = " << mainManager.CurrentLevel << endl;
+    PrintField(mainManager.gameField);
+
+    display("Hero status before dice results", mainManager.gameField->hero);
     cout << endl;
 
-    MainM.gameField->hero->diceResults();
-    cout << "Hero status:" << endl;
-    cout << "position: (" << MainM.gameField->hero->getX() << ", " << MainM.gameField->hero->getY() << "), health: " << MainM.gameField->hero->getHealth()
-         << ", damage: " << MainM.gameField->hero->getDamage() << ", protection: " << MainM.gameField->hero->getProtection()
-         << ", speed: " << MainM.gameField->hero->getSpeed() << ", distance: " << MainM.gameField->hero->getDistance() << std::endl;
+    mainManager.gameField->hero->diceResults();
+
+    display("Hero status after dice results", mainManager.gameField->hero);
     cout << endl;
 
-    cout << "Monster status:" << endl;
-    cout << "position: (" << MainM.gameField->monster->getX() << ", " << MainM.gameField->monster->getY() << "), health: " << MainM.gameField->monster->getHealth()
-         << ", damage: " << MainM.gameField->monster->getDamage() << ", protection: " << MainM.gameField->monster->getProtection()
-         << ", speed: " << MainM.gameField->monster->getSpeed() << ", active: " << (MainM.gameField->monster->isActive() ? "yes" : "no") << std::endl;
-    cout << endl;
+    display("Monster status", mainManager.gameField->monster);
+    cout << ", active: " << (mainManager.gameField->monster->isActive() ? "yes" : "no") << endl << endl;
 
-
-    // They should move to each other before the attack
-
+    Position newPosition = {2, 3};
+    mainManager.gameField->hero->move(newPosition.x, newPosition.y, mainManager.gameField);
+    PrintField(mainManager.gameField);
 
     cout << "Hero attacks the monster" << endl;
-    MainM.gameField->hero->attack(*MainM.gameField->monster, MainM.gameField);
+    mainManager.gameField->hero->attack(*mainManager.gameField->monster, mainManager.gameField);
 
-    cout << "Monster status after attack:" << endl;
-    cout << "position: (" << MainM.gameField->monster->getX() << ", " << MainM.gameField->monster->getY() << "), health: " << MainM.gameField->monster->getHealth()
-         << ", damage: " << MainM.gameField->monster->getDamage() << ", protection: " << MainM.gameField->monster->getProtection()
-         << ", speed: " << MainM.gameField->monster->getSpeed() << ", active: " << (MainM.gameField->monster->isActive() ? "yes" : "no") << std::endl;
+    display("Monster status after attack", mainManager.gameField->monster);
+    cout << ", active: " << (mainManager.gameField->monster->isActive() ? "yes" : "no") << endl << endl;
+
+    Monster::MonsterContainer monsters = { *mainManager.gameField->monster };
+    mainManager.gameField->monster->calculateMonsterAttack(*mainManager.gameField->hero, monsters);
+
+    display("Hero status after counterattack", mainManager.gameField->hero);
     cout << endl;
 
-    cout << "Monster counterattacks" << endl;
-    Monster::MonsterContainer monsters = {*MainM.gameField->monster};
-    MainM.gameField->monster->calculateMonsterAttack(*MainM.gameField->hero, monsters);
-
-    cout << "Hero status after attack:" << endl;
-    cout << "position: (" << MainM.gameField->hero->getX() << ", " << MainM.gameField->hero->getY() << "), health: " << MainM.gameField->hero->getHealth()
-         << ", damage: " << MainM.gameField->hero->getDamage() << ", protection: " << MainM.gameField->hero->getProtection()
-         << ", speed: " << MainM.gameField->hero->getSpeed() << ", distance: " << MainM.gameField->hero->getDistance() << std::endl;
-    cout << endl;
-
-    if (!monster.isActive()) {
+    if (!mainManager.gameField->monster->isActive()) {
         cout << "Monster is dead" << endl;
     } else {
         cout << "Monster is still active" << endl;
     }
 }
 
-int main(){
+int main() {
     srand(static_cast<unsigned int>(time(NULL)));
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
-    Manager MainManager;
-    TestLab1(MainManager);
+    Manager mainManager;
+    TestLab1(mainManager);
     return 0;
 }

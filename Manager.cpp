@@ -13,8 +13,8 @@ void Manager::createField(int fieldWidth, int fieldHeight, int obstacles, int mo
 
 void Manager::generationObjects(int obst) {
     gameField->placeHero();
-    gameField->placeObstacles(obst);
     gameField->placeNearHero();
+    gameField->placeObstacles(obst);
 }
 
 int Manager::getCurrentLevel(){
