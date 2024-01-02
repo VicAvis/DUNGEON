@@ -68,15 +68,13 @@ public:
 
 class Monster : public Character {
 private:
-    bool active;
 
 public:
 
-    using MonsterContainer = std::array<Monster, 5>;
+    using MonsterContainer = std::array<Monster, 3>;
     using Character::Character;
     Monster() noexcept;
-
-    void setActive(bool active);
+ //   void setMonsterContainer(int level);
     bool isActive() const;
     void setHealth(Manager& main);
     void placeNearHero(Hero& hero, Field& gameField);
@@ -85,7 +83,15 @@ public:
     using Character::setHealth;
     using Character::reduceHealth;
 
-    void calculateMonsterAttack(Hero &hero, MonsterContainer &monsters);
+    virtual void MonsterAttack(Hero &hero, Monster& monster);
 };
 
+class Goblin : public Monster {
+    virtual void MonsterAttack(Hero& hero, Monster& monster);
+};
+
+class Hydra : public Monster {
+    virtual void MonsterAttack(Hero& hero, Monster& monster);
+
+};
 #endif // OOP_LAB_CHARACTER_H

@@ -39,8 +39,6 @@ void display(const string& title, Character* character) {
 }
 
 void TestLab1(Manager mainManager) {
-    Monster monster;
-    Hero hero;
 
     mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, 1);
 
@@ -68,8 +66,8 @@ void TestLab1(Manager mainManager) {
     display("Monster status after attack", mainManager.gameField->monster);
     cout << ", active: " << (mainManager.gameField->monster->isActive() ? "yes" : "no") << endl << endl;
 
-    Monster::MonsterContainer monsters = { *mainManager.gameField->monster };
-    mainManager.gameField->monster->calculateMonsterAttack(*mainManager.gameField->hero, monsters);
+   // Monster::MonsterContainer monsters = { *mainManager.gameField->monster };
+    mainManager.gameField->monster->MonsterAttack(*mainManager.gameField->hero, *mainManager.gameField->monster);
 
     display("Hero status after counterattack", mainManager.gameField->hero);
     cout << endl;

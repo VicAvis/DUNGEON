@@ -120,8 +120,7 @@ void Hero::attack(Monster& target, Field* gameField) {
 
 void Hero::restoreHealth() { setHealth(maxValue); }
 
-bool Monster::isActive() const { return active; }
-void Monster::setActive(bool active) {this->active = active; }
+bool Monster::isActive() const { return (getHealth() == 0 ? false : true); }
 
 Monster::Monster() noexcept {
     Manager main;
@@ -131,13 +130,10 @@ Monster::Monster() noexcept {
     setHealth(10);
     setX(0);
     setY(0);
-    setActive(true);
 }
 
-using MonsterContainer = std::array<Monster, 1>;
-
-void Monster::calculateMonsterAttack(Hero& hero, MonsterContainer& monsters) {
-    for (auto& monster : monsters) {
+void Monster::MonsterAttack(Hero& hero, Monster& monster) {
+    //for (auto& monster : monsters) {
         int monsterDistance = std::max(std::abs(hero.getX() - monster.getX()), std::abs(hero.getY() - monster.getY()));
 
         int totalAttack;
@@ -162,8 +158,73 @@ void Monster::calculateMonsterAttack(Hero& hero, MonsterContainer& monsters) {
         }
 
         hero.reduceHealth(damage);
-    }
+    //}
 }
 
+void Hydra::MonsterAttack(Hero& hero, Monster& monster) {
+    //for (auto& monster : monsters) {
+        int monsterDistance = std::max(std::abs(hero.getX() - monster.getX()), std::abs(hero.getY() - monster.getY()));
 
+        int totalAttack;
+        if (monster.isActive()) {
+            if (monsterDistance <= hero.getDistance()) {
+                totalAttack = monster.getDamage();
+            }
+            else {
+                totalAttack = 0;
+            }
+        }
+        else {
+            return;
+        }
 
+        int heroDefense = hero.getProtection();
+        int damage;
+
+        if (totalAttack > heroDefense) {
+            damage = totalAttack - heroDefense;
+        }
+        else {
+            damage = 0;
+        }
+
+        hero.reduceHealth(damage);
+        hero.setProtection(hero.getProtection() - 1);
+    //}
+}
+
+void Goblin::MonsterAttack(Hero& hero, Monster& monster) {
+   // for (auto& monster : monsters) {
+        int monsterDistance = std::max(std::abs(hero.getX() - monster.getX()), std::abs(hero.getY() - monster.getY()));
+
+        int totalAttack;
+        if (monster.isActive()) {
+            if (monsterDistance <= hero.getDistance()) {
+                totalAttack = monster.getDamage();
+            }
+            else {
+                totalAttack = 0;
+            }
+        }
+        else {
+            return;
+        }
+
+        int heroDefense = hero.getProtection();
+        int damage;
+
+        if (totalAttack > heroDefense) {
+            damage = totalAttack - heroDefense;
+        }
+        else {
+            damage = 0;
+        }
+
+        hero.reduceHealth(damage);
+    //}
+}
+//void Monster::setMonsterContainer(int level)
+//{
+//    int const count = level / 3;
+//    using MonsterContainer = std::array<Monster, count>;
+//}
