@@ -159,8 +159,8 @@ bool Field::freeCell(int x, int y) const {
 }
 
 Field::~Field() {
-    delete hero;
-    delete monster;
+//    delete hero;
+//    delete monster;
 
     for (int i = 0; i < height; ++i) {
         delete[] cells[i];

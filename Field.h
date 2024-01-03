@@ -1,6 +1,7 @@
 #pragma once
-#include "Character.h"
 #include "Cell.h"
+#include "Hero.h"
+#include "Monster.h"
 
 class Field {
 private:

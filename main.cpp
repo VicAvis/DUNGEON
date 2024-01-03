@@ -3,6 +3,9 @@
 #include <ctime>
 #include <windows.h>
 #include <iomanip>
+#include "Field.h"
+#include "Monster.h"
+#include "Hero.h"
 #include "Manager.h"
 
 using std::string;

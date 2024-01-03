@@ -1,14 +1,6 @@
 #pragma once
-#ifndef OOP_LAB_CHARACTER_H
-#define OOP_LAB_CHARACTER_H
-
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <array>
-
-class Manager;
-class Monster;
+#ifndef CHARACTER_H
+#define CHARACTER_H
 
 const int maxValue = 6;
 const int startValue = 1;
@@ -38,60 +30,15 @@ public:
     void setProtection(int value);
     void setSpeed(int value);
     int getProtection() const;
-    void increaseHealth(int amount);
-
-    void increaseDamage(int amount);
-    void increaseProtection(int amount);
-};
-
-class Hero : public Character {
-private:
-    int distance;
-
-public:
-    using Character::Character;
-    using Character::getHealth;
-    using Character::reduceHealth;
-    Hero() noexcept;
-
-    void setDistance(int value);
-    int getDistance() const;
-
-    void increaseDistance(int amount);
-
-    Hero(int health, int damage, int protection, int distance);
     void diceResults();
-    void restoreHealth();
-    int move(int pos_X, int pos_Y, Field* gameField);
-    void attack(Monster& target, Field* gameField);
-};
 
-class Monster : public Character {
-private:
+    virtual int move(int new_x, int new_y, Field* gameField) = 0;
+    virtual void attack(Character& target, Field* gameField) = 0;
 
-public:
+     void increaseDamage(int amount);
+     void increaseProtection(int amount);
+     void increaseHealth(int amount);
 
-    using MonsterContainer = std::array<Monster, 3>;
-    using Character::Character;
-    Monster() noexcept;
- //   void setMonsterContainer(int level);
-    bool isActive() const;
-    void setHealth(Manager& main);
-    void placeNearHero(Hero& hero, Field& gameField);
-    using Character::getHealth;
-    using Character::getDamage;
-    using Character::setHealth;
-    using Character::reduceHealth;
+ };
 
-    virtual void MonsterAttack(Hero &hero, Monster& monster);
-};
-
-class Goblin : public Monster {
-    virtual void MonsterAttack(Hero& hero, Monster& monster);
-};
-
-class Hydra : public Monster {
-    virtual void MonsterAttack(Hero& hero, Monster& monster);
-
-};
-#endif // OOP_LAB_CHARACTER_H
+#endif // CHARACTER_H

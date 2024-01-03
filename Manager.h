@@ -2,6 +2,7 @@
 #ifndef OOP_LAB_MANAGER_H
 #define OOP_LAB_MANAGER_H
 
+#include <string>
 #include "Field.h"
 #include "Character.h"
 
