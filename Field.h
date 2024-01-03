@@ -2,6 +2,7 @@
 #include "Cell.h"
 #include "Hero.h"
 #include "Monster.h"
+#include <vector>
 
 class Field {
 private:
@@ -14,6 +15,7 @@ private:
 public:
     Hero* hero;
     Monster* monster;
+    std::vector<Monster*> monsters;
     Field(int m, int n);
     bool isWithinBounds(int x, int y) const;
     void placeHero();

@@ -13,7 +13,7 @@ public:
     Monster() noexcept;
     //   void setMonsterContainer(int level);
     bool isActive() const;
-    virtual void MonsterAttack(Hero &hero, Monster& monster);
+    virtual void MonsterAttack(Hero &hero, Monster& monsters);
     int move(int new_x, int new_y, Field* gameField) override;
     void attack(Character& target, Field* gameField) override;
     int getMoveCost() const override;
@@ -25,7 +25,6 @@ class Goblin : public Monster {
 
 class Hydra : public Monster {
     virtual void MonsterAttack(Hero& hero, Monster& monster);
-
 };
 
 #endif // MONSTER_H

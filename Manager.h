@@ -10,7 +10,6 @@ class Manager {
 private:
     std::string PersoneName;
 
-
 public:
     int CurrentLevel;
     friend void TestLab1(Manager);
@@ -18,7 +17,7 @@ public:
 
     void generationObjects(int obst);
     int getCurrentLevel();
-    void createField(int fieldWidth, int fieldHeight, int obstacles, int monster);
+    void createField(int fieldWidth, int fieldHeight, int obstacles, Monster* monster);
 
     Field* getGameField() const;
     int getCurrentLevel() const;

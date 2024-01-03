@@ -14,15 +14,15 @@ Monster::Monster() noexcept {
     setY(0);
 }
 
-void Monster::MonsterAttack(Hero& hero, Monster& monster) {
+void Monster::MonsterAttack(Hero& hero, Monster& monsters) {
     //for (auto& monster : monsters) {
-    int monsterDistance = std::max(std::abs(hero.getX() - monster.getX()), std::abs(hero.getY() - monster.getY()));
+    int monsterDistance = std::max(std::abs(hero.getX() - getX()), std::abs(hero.getY() - getY()));
 
     int totalAttack;
     // порахувати загальну атаку тих монстрів, які знаходяться на 1 клітинку від героя
-    if(monster.isActive()){
+    if(isActive()){
         if (monsterDistance <= hero.getDistance()) {
-            totalAttack = monster.getDamage();
+            totalAttack = getDamage();
         } else {
             totalAttack = 0;
         }
@@ -56,66 +56,12 @@ int Monster::getMoveCost() const {
 }
 
 void Hydra::MonsterAttack(Hero& hero, Monster& monster) {
-    //for (auto& monster : monsters) {
-    int monsterDistance = std::max(std::abs(hero.getX() - monster.getX()), std::abs(hero.getY() - monster.getY()));
-
-    int totalAttack;
-    if (monster.isActive()) {
-        if (monsterDistance <= hero.getDistance()) {
-            totalAttack = monster.getDamage();
-        }
-        else {
-            totalAttack = 0;
-        }
-    }
-    else {
-        return;
-    }
-
-    int heroDefense = hero.getProtection();
-    int damage;
-
-    if (totalAttack > heroDefense) {
-        damage = totalAttack - heroDefense;
-    }
-    else {
-        damage = 0;
-    }
-
-    hero.reduceHealth(damage);
+    Monster::MonsterAttack(hero, monster);
     hero.setProtection(hero.getProtection() - 1);
-    //}
 }
 
 void Goblin::MonsterAttack(Hero& hero, Monster& monster) {
-    // for (auto& monster : monsters) {
-    int monsterDistance = std::max(std::abs(hero.getX() - monster.getX()), std::abs(hero.getY() - monster.getY()));
-
-    int totalAttack;
-    if (monster.isActive()) {
-        if (monsterDistance <= hero.getDistance()) {
-            totalAttack = monster.getDamage();
-        }
-        else {
-            totalAttack = 0;
-        }
-    }
-    else {
-        return;
-    }
-
-    int heroDefense = hero.getProtection();
-    int damage;
-
-    if (totalAttack > heroDefense) {
-        damage = totalAttack - heroDefense;
-    }
-    else {
-        damage = 0;
-    }
-
-    hero.reduceHealth(damage);
-    //}
+    Monster::MonsterAttack(hero, monster);
 }
 //void Monster::setMonsterContainer(int level)
 //{

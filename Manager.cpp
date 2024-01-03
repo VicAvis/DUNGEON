@@ -6,8 +6,9 @@ using namespace std;
 
 Manager::Manager() : CurrentLevel(1), gameField(nullptr), PersoneName("") {}
 
-void Manager::createField(int fieldWidth, int fieldHeight, int obstacles, int monster) {
+void Manager::createField(int fieldWidth, int fieldHeight, int obstacles, Monster* monster) {
     gameField = new Field(fieldWidth, fieldHeight);
+    gameField->monster = monster;
     generationObjects(obstacles);
 }
 
