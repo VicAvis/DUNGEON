@@ -1,11 +1,10 @@
 #pragma once
 #ifndef CHARACTER_H
 #define CHARACTER_H
+class Field;
 
 const int maxValue = 6;
 const int startValue = 1;
-
-class Field;
 
 class Character {
 private:
@@ -34,11 +33,11 @@ public:
 
     virtual int move(int new_x, int new_y, Field* gameField) = 0;
     virtual void attack(Character& target, Field* gameField) = 0;
+    virtual int getMoveCost() const = 0;
 
      void increaseDamage(int amount);
      void increaseProtection(int amount);
      void increaseHealth(int amount);
-
  };
 
 #endif // CHARACTER_H

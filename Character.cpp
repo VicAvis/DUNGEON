@@ -1,6 +1,5 @@
 #include <cstdlib>
 #include "Character.h"
-#include "Field.h"
 #include "Hero.h"
 
 void Character::setProtection(int value) { protection = value; }
@@ -19,7 +18,6 @@ void Character::setDamage(int value) { damage = value; }
 int Character::getDamage() const { return damage; }
 int Character::getSpeed() const { return speed; }
 void Character::setSpeed(int value) { speed = value; }
-void Hero::setDistance(int value) { distance = value; }
 void Character::increaseDamage(int amount) { setDamage(getDamage() + amount); }
 void Character::increaseProtection(int amount) { setProtection(getProtection() + amount); }
 
@@ -35,4 +33,5 @@ void Character::reduceHealth(int amount) {
         health = 0;
     }
 }
+
 

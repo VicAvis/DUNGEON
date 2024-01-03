@@ -49,8 +49,15 @@ void Field::placeHero() {
 }
 
 void Field::moveUnit(Character& unit, int new_x, int new_y) {
-    cells[unit.getY()][unit.getX()].setUnitPresent(false);
-    cells[new_y][new_x].setUnitPresent(true);
+    if (isWithinBounds(unit.getX(), unit.getY())) {
+        cells[unit.getY()][unit.getX()].setUnitPresent(false);
+    }
+
+    if (isWithinBounds(new_x, new_y)) {
+        cells[new_y][new_x].setUnitPresent(true);
+        unit.setX(new_x);
+        unit.setY(new_y);
+    }
 }
 
 void Field::placeObstacles(int obstacleCount) {

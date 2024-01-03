@@ -16,6 +16,7 @@ public:
     virtual void MonsterAttack(Hero &hero, Monster& monster);
     int move(int new_x, int new_y, Field* gameField) override;
     void attack(Character& target, Field* gameField) override;
+    int getMoveCost() const override;
 };
 
 class Goblin : public Monster {

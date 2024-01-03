@@ -44,11 +44,15 @@ void Monster::MonsterAttack(Hero& hero, Monster& monster) {
     //}
 }
 
+void Monster::attack(Character &target, Field *gameField) {
+}
+
 int Monster::move(int new_x, int new_y, Field *gameField) {
     return 0;
 }
 
-void Monster::attack(Character &target, Field *gameField) {
+int Monster::getMoveCost() const {
+    return 0;
 }
 
 void Hydra::MonsterAttack(Hero& hero, Monster& monster) {

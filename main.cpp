@@ -41,38 +41,80 @@ void display(const string& title, Character* character) {
          << ", speed: " << character->getSpeed();
 }
 
-void TestLab1(Manager mainManager) {
-
+//void TestLab1(Manager mainManager) {
+//
+//    mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, 1);
+//
+//    cout << "Current level = " << mainManager.CurrentLevel << endl;
+//    PrintField(mainManager.gameField);
+//
+//    display("Hero status before dice results", mainManager.gameField->hero);
+//    cout << endl;
+//
+//    mainManager.gameField->hero->diceResults();
+//
+//    display("Hero status after dice results", mainManager.gameField->hero);
+//    cout << endl;
+//
+//    display("Monster status", mainManager.gameField->monster);
+//    cout << ", active: " << (mainManager.gameField->monster->isActive() ? "yes" : "no") << endl << endl;
+//
+//    Position newPosition = {2, 3};
+//    mainManager.gameField->hero->move(newPosition.x, newPosition.y, mainManager.gameField);
+//    PrintField(mainManager.gameField);
+//
+//    cout << "Hero attacks the monster" << endl;
+//    mainManager.gameField->hero->attack(*mainManager.gameField->monster, mainManager.gameField);
+//
+//    display("Monster status after attack", mainManager.gameField->monster);
+//    cout << ", active: " << (mainManager.gameField->monster->isActive() ? "yes" : "no") << endl << endl;
+//
+//   // Monster::MonsterContainer monsters = { *mainManager.gameField->monster };
+//    mainManager.gameField->monster->MonsterAttack(*mainManager.gameField->hero, *mainManager.gameField->monster);
+//
+//    display("Hero status after counterattack", mainManager.gameField->hero);
+//    cout << endl;
+//
+//    if (!mainManager.gameField->monster->isActive()) {
+//        cout << "Monster is dead" << endl;
+//    } else {
+//        cout << "Monster is still active" << endl;
+//    }
+//}
+void TestLab2(Manager mainManager) {
     mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, 1);
+    Hero* archerHero = new Hero();
+    ArcherDecorator* archerDecorator = new ArcherDecorator(*archerHero);
+
+    mainManager.gameField->hero = archerDecorator;
+    mainManager.gameField->placeHero();
 
     cout << "Current level = " << mainManager.CurrentLevel << endl;
     PrintField(mainManager.gameField);
 
-    display("Hero status before dice results", mainManager.gameField->hero);
+    display("Archer Hero status before dice results", mainManager.gameField->hero);
     cout << endl;
 
     mainManager.gameField->hero->diceResults();
 
-    display("Hero status after dice results", mainManager.gameField->hero);
+    display("Archer Hero status after dice results", mainManager.gameField->hero);
     cout << endl;
-
-    display("Monster status", mainManager.gameField->monster);
-    cout << ", active: " << (mainManager.gameField->monster->isActive() ? "yes" : "no") << endl << endl;
 
     Position newPosition = {2, 3};
     mainManager.gameField->hero->move(newPosition.x, newPosition.y, mainManager.gameField);
     PrintField(mainManager.gameField);
 
-    cout << "Hero attacks the monster" << endl;
+    cout << "Archer Hero attacks the monster" << endl;
+    display("Monster status", mainManager.gameField->monster);
+    cout << ", active: " << (mainManager.gameField->monster->isActive() ? "yes" : "no") << endl << endl;
     mainManager.gameField->hero->attack(*mainManager.gameField->monster, mainManager.gameField);
 
     display("Monster status after attack", mainManager.gameField->monster);
     cout << ", active: " << (mainManager.gameField->monster->isActive() ? "yes" : "no") << endl << endl;
 
-   // Monster::MonsterContainer monsters = { *mainManager.gameField->monster };
     mainManager.gameField->monster->MonsterAttack(*mainManager.gameField->hero, *mainManager.gameField->monster);
 
-    display("Hero status after counterattack", mainManager.gameField->hero);
+    display("Archer Hero status after counterattack", mainManager.gameField->hero);
     cout << endl;
 
     if (!mainManager.gameField->monster->isActive()) {
@@ -80,13 +122,21 @@ void TestLab1(Manager mainManager) {
     } else {
         cout << "Monster is still active" << endl;
     }
+
+    delete archerHero;
 }
+
 
 int main() {
     srand(static_cast<unsigned int>(time(NULL)));
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     Manager mainManager;
-    TestLab1(mainManager);
+
+//    cout << "Running TestLab1:" << endl;
+//    TestLab1(mainManager);
+
+    cout << "\nRunning TestLab2:" << endl;
+    TestLab2(mainManager);
     return 0;
 }
