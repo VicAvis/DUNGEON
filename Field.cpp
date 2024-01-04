@@ -52,12 +52,13 @@ void Field::moveUnit(Character& unit, int new_x, int new_y) {
     if (isWithinBounds(unit.getX(), unit.getY())) {
         cells[unit.getY()][unit.getX()].setUnitPresent(false);
     }
-
     if (isWithinBounds(new_x, new_y)) {
         cells[new_y][new_x].setUnitPresent(true);
         unit.setX(new_x);
         unit.setY(new_y);
     }
+    unit.setX(new_x);
+    unit.setY(new_y);
 }
 
 void Field::placeObstacles(int obstacleCount) {
@@ -76,12 +77,9 @@ void Field::placeNearHero() {
     int heroX = hero->getX();
     int heroY = hero->getY();
 
-    int newY = heroY + 3;
-
-    if (isWithinBounds(heroX, newY) && freeCell(heroX, newY)) {
-        monster->setY(newY);
-        moveUnit(*monster, heroX, newY);
-        cells[newY][heroX].setUnitPresent(true);
+    if (isWithinBounds(heroX+2, heroY+2) && freeCell(heroX +2, heroY + 2)) {
+        monster->setY(heroY + 2);
+        moveUnit(*monster, heroX +2, heroY + 2);
     }
 }
 

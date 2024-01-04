@@ -114,11 +114,13 @@ void TestLab2(Manager mainManager) {
     display("Monster status after attack", mainManager.gameField->monster);
     cout << ", active: " << (mainManager.gameField->monster->isActive() ? "yes" : "no") << endl << endl;
 
+    //mainManager.gameField->monster->state->Attack(*mainManager.gameField->hero, *mainManager.gameField->monster);
+    mainManager.gameField->monster->MonsterMove(*mainManager.gameField->hero, *mainManager.gameField->monster, mainManager.gameField);
     mainManager.gameField->monster->MonsterAttack(*mainManager.gameField->hero, *mainManager.gameField->monster);
 
     display("Archer Hero status after counterattack", mainManager.gameField->hero);
     cout << endl;
-
+    PrintField(mainManager.gameField);
     if (!mainManager.gameField->monster->isActive()) {
         cout << "Monster is dead" << endl;
     } else {
