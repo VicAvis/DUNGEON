@@ -80,9 +80,9 @@ void Field::placeNearHero() {
     int heroY = hero->getY();
     //int newX, newY;
     //newX=rand()%
-    if (isWithinBounds(heroX + 2, heroY + 2) && freeCell(heroX + 2, heroY + 2)) {
-        monster->setY(heroY + 2);
-        moveUnit(*monster, heroX + 2, heroY + 2);
+    if (isWithinBounds(heroX + 2, heroY) && freeCell(heroX + 2, heroY)) {
+        //monster->setY(heroY + 2);
+        moveUnit(*monster, heroX + 2, heroY);
         return;
     }
     //else placeNearHero();
