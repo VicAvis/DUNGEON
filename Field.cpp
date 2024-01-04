@@ -72,15 +72,20 @@ void Field::placeObstacles(int obstacleCount) {
         cells[y][x].setObstacle(true);
     }
 }
-
+bool Field::isCellHasObstacle(int x, int y) {
+    return cells[x][y].hasObstacle();
+}
 void Field::placeNearHero() {
     int heroX = hero->getX();
     int heroY = hero->getY();
-
-    if (isWithinBounds(heroX+2, heroY+2) && freeCell(heroX +2, heroY + 2)) {
+    //int newX, newY;
+    //newX=rand()%
+    if (isWithinBounds(heroX + 2, heroY + 2) && freeCell(heroX + 2, heroY + 2)) {
         monster->setY(heroY + 2);
-        moveUnit(*monster, heroX +2, heroY + 2);
+        moveUnit(*monster, heroX + 2, heroY + 2);
+        return;
     }
+    //else placeNearHero();
 }
 
 //void Field::placeMonsters(int monsterCount) {

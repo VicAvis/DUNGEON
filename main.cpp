@@ -95,12 +95,12 @@ void TestLab2(Manager mainManager) {
     PrintField(mainManager.gameField);
 
     display("Archer Hero status before dice results", mainManager.gameField->hero);
-    cout << endl;
+    cout << " distance: " << mainManager.gameField->hero->getDistance() << endl;
 
     mainManager.gameField->hero->diceResults();
 
     display("Archer Hero status after dice results", mainManager.gameField->hero);
-    cout << endl;
+    cout << " distance: " << mainManager.gameField->hero->getDistance() << endl;
 
     Position newPosition = {2, 3};
     mainManager.gameField->hero->move(newPosition.x, newPosition.y, mainManager.gameField);
@@ -116,17 +116,29 @@ void TestLab2(Manager mainManager) {
 
     //mainManager.gameField->monster->state->Attack(*mainManager.gameField->hero, *mainManager.gameField->monster);
     mainManager.gameField->monster->MonsterMove(*mainManager.gameField->hero, *mainManager.gameField->monster, mainManager.gameField);
+    display("Archer Hero status after monster move", mainManager.gameField->hero);
+    cout << " distance: " << mainManager.gameField->hero->getDistance() << endl;
+    display("Monster status after move", mainManager.gameField->monster);
+    cout << ", active: " << (mainManager.gameField->monster->isActive() ? "yes" : "no") << endl << endl;
+    PrintField(mainManager.gameField);
     mainManager.gameField->monster->MonsterAttack(*mainManager.gameField->hero, *mainManager.gameField->monster);
 
     display("Archer Hero status after counterattack", mainManager.gameField->hero);
-    cout << endl;
+    cout << " distance: " << mainManager.gameField->hero->getDistance() << endl;
     PrintField(mainManager.gameField);
     if (!mainManager.gameField->monster->isActive()) {
         cout << "Monster is dead" << endl;
     } else {
         cout << "Monster is still active" << endl;
     }
-
+    mainManager.gameField->monster->MonsterMove(*mainManager.gameField->hero, *mainManager.gameField->monster, mainManager.gameField);
+    display("Archer Hero status after monster move", mainManager.gameField->hero);
+    cout << " distance: " << mainManager.gameField->hero->getDistance() << endl;
+    PrintField(mainManager.gameField);
+    mainManager.gameField->monster->MonsterMove(*mainManager.gameField->hero, *mainManager.gameField->monster, mainManager.gameField);
+    display("Archer Hero status after monster move", mainManager.gameField->hero);
+    cout << " distance: " << mainManager.gameField->hero->getDistance() << endl;
+    PrintField(mainManager.gameField);
     delete archerHero;
 }
 

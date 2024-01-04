@@ -16,7 +16,7 @@ Monster::Monster() noexcept {
 }
 
 void Monster::MonsterAttack(Hero& hero, Monster& monsters) {
-    //for (auto& monster : monsters) {
+    /*//for (auto& monster : monsters) {
     int monsterDistance = std::max(std::abs(hero.getX() - getX()), std::abs(hero.getY() - getY()));
 
     int totalAttack;
@@ -42,7 +42,7 @@ void Monster::MonsterAttack(Hero& hero, Monster& monsters) {
     }
 
     hero.reduceHealth(damage);
-    //}
+    //}*/
 }
 
 void Monster::MonsterMove(Hero& hero, Monster& monsters, Field* gameField) {
@@ -60,7 +60,32 @@ int Monster::getMoveCost() const {
 }
 
 void Hydra::MonsterAttack(Hero& hero, Monster& monsters) {
-    Monster::MonsterAttack(hero, monsters);
+    //for (auto& monster : monsters) {
+    int totalAttack;
+    // порахувати загальну атаку тих монстрів, які знаходяться на 1 клітинку від героя
+    if (isActive()) {
+        if ((getX() == hero.getX() - 1 || getX() == hero.getX() + 1) && (getY() == hero.getY() - 1 || getY() == hero.getY() + 1)) {
+            totalAttack = getDamage();
+        }
+        else {
+            totalAttack = 0;
+        }
+    }
+    else {
+        return;
+    }
+
+    int heroDefense = hero.getProtection();
+    int damage;
+
+    if (totalAttack > heroDefense) {
+        damage = totalAttack - heroDefense;
+    }
+    else {
+        damage = 0;
+    }
+    hero.reduceHealth(damage);
+    //}
     hero.setProtection(hero.getProtection() - 1);
 }
 void Hydra::MonsterMove(Hero& hero, Monster& monsters, Field* gameField) {
@@ -90,7 +115,11 @@ void Hydra::MonsterMove(Hero& hero, Monster& monsters, Field* gameField) {
     // всі інші випадки - старт
     int delX = hX - mX, delY = hY - mY;
     if (std::abs(delX) > std::abs(delY)) {
-        gameField->moveUnit(*this, getX() + (delX > 0 ? 1 : (delX < 0 ? -1 : 0)), getY());
+        int newX = getX() + (delX > 0 ? 1 : (delX < 0 ? -1 : 0));
+        if (gameField->isCellHasObstacle(newX, mY)) {
+            return;
+        }
+        gameField->moveUnit(*this, newX, mY);
     }
     else {
         gameField->moveUnit(*this, getX(), getY()+ (delY > 0 ? 1 : (delY < 0 ? -1 : 0)));
@@ -98,21 +127,12 @@ void Hydra::MonsterMove(Hero& hero, Monster& monsters, Field* gameField) {
     // всі інші випадки - фініш
 }
 void Goblin::MonsterAttack(Hero& hero, Monster& monsters) {
-    Monster::MonsterAttack(hero, monsters);
-}
-
-/*
-void FarFromHeroState::Attack(Hero& hero, Monster& monsters) {
-
-}
-void AttackState::Attack(Hero& hero, Monster& monsters){
     //for (auto& monster : monsters) {
-    int monsterDistance = std::max(std::abs(hero.getX() - monster.getX()), std::abs(hero.getY() - monster.getY()));
     int totalAttack;
     // порахувати загальну атаку тих монстрів, які знаходяться на 1 клітинку від героя
-    if (monster.isActive()) {
-        if (monsterDistance <= hero.getDistance()) {
-            totalAttack = monster.getDamage();
+    if (isActive()) {
+        if ((getX() == hero.getX() && (getY() == hero.getY() - 1 || getY() == hero.getY() + 1)) || (getY() == hero.getY() && (getX() == hero.getX() - 1 || getX() == hero.getX() + 1))) {
+            totalAttack = getDamage();
         }
         else {
             totalAttack = 0;
@@ -131,13 +151,13 @@ void AttackState::Attack(Hero& hero, Monster& monsters){
     else {
         damage = 0;
     }
-
     hero.reduceHealth(damage);
     //}
 }
+
+/*
+void FarFromHeroState::Attack(Hero& hero, Monster& monsters) {
+}
+void AttackState::Attack(Hero& hero, Monster& monsters){
+}
 */
-//void Monster::setMonsterContainer(int level)
-//{
-//    int const count = level / 3;
-//    using MonsterContainer = std::array<Monster, count>;
-//}

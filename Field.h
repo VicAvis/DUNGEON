@@ -17,6 +17,7 @@ public:
     Monster* monster;
     std::vector<Monster*> monsters;
     Field(int m, int n);
+    bool isCellHasObstacle(int x, int y);
     bool isWithinBounds(int x, int y) const;
     void placeHero();
     void placeObstacles(int obstacleCount);
