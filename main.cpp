@@ -152,28 +152,44 @@ void display(const string& title, Character* character) {
 void TestLab3(Manager mainManager) {
     cout << "\nTest started:\n";
     Hero* archerHero = new Hero();
-    cout << "Hero created:\n";
-    ArcherDecorator* archerDecorator = new ArcherDecorator(*archerHero);
-    cout << "ArcherDecoretor created:\n";
+    //ArcherDecorator* archerDecorator = new ArcherDecorator(*archerHero);
     Monster* OneNewMonster = new Monster();
-    cout << "Monster created:\n";
     mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, OneNewMonster);
-    cout << "Field created:\n";
-    mainManager.gameField->hero = archerDecorator;
-    cout << "Hero changed:\n";
+    mainManager.gameField->hero = archerHero;
     mainManager.gameField->placeHero();
-    cout << "Hero placed:\n";
     cout << "Current level = " << mainManager.CurrentLevel << endl;
+    
     PrintField(mainManager.gameField);
     cout << endl;
     display("Hero: ", mainManager.gameField->hero);
     display("Monster:", mainManager.gameField->monster);
+   
+    cout << "Monster state - " << mainManager.gameField->monster->state->StateName << endl;
     mainManager.gameField->monster->Move(*mainManager.gameField->hero,  mainManager.gameField, *mainManager.gameField->monster);
+    cout << "Monster state - " << mainManager.gameField->monster->state->StateName << endl;
+    mainManager.gameField->monster->Attack(*mainManager.gameField->hero, *mainManager.gameField->monster);
+    cout << "Monster state - " << mainManager.gameField->monster->state->StateName << endl;
+
     PrintField(mainManager.gameField);
     cout << endl;
     display("Hero: ", mainManager.gameField->hero);
     display("Monster:", mainManager.gameField->monster);
+    
     mainManager.gameField->monster->Move(*mainManager.gameField->hero, mainManager.gameField, *mainManager.gameField->monster);
+    cout << "Monster state - " << mainManager.gameField->monster->state->StateName << endl;
+    mainManager.gameField->monster->Attack(*mainManager.gameField->hero, *mainManager.gameField->monster);
+    cout << "Monster state - " << mainManager.gameField->monster->state->StateName << endl;
+
+    PrintField(mainManager.gameField);
+    cout << endl;
+    display("Hero: ", mainManager.gameField->hero);
+    display("Monster:", mainManager.gameField->monster);
+
+    mainManager.gameField->monster->Move(*mainManager.gameField->hero, mainManager.gameField, *mainManager.gameField->monster);
+    cout << "Monster state - " << mainManager.gameField->monster->state->StateName << endl;
+    mainManager.gameField->monster->Attack(*mainManager.gameField->hero, *mainManager.gameField->monster);
+    cout << "Monster state - " << mainManager.gameField->monster->state->StateName << endl;
+
     PrintField(mainManager.gameField);
     cout << endl;
     display("Hero: ", mainManager.gameField->hero);
