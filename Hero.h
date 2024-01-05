@@ -1,7 +1,6 @@
 #pragma once
 #ifndef HERO_H
 #define HERO_H
-
 #include "Character.h"
 class Monster;
 
@@ -27,17 +26,20 @@ public:
     void restoreHealth();
 };
 
-class Decorator: public Hero{
+class Decorator: public Character{
 public:
     virtual int move(int new_x, int new_y, Field *gameField);
 };
 
 class ArcherDecorator: public Decorator{
 private:
-    Hero &character;
+    Hero* character;
+    int numberOfArrows{};
 
 public:
-    ArcherDecorator(Hero &unit);
+    ArcherDecorator(Hero* unit);
+    int getNumberOfArrows() const;
+    void setNumberOfArrows(int arrows);
     int getMoveCost() const override;
     int move(int new_x, int new_y, Field *gameField) override;
     void attack(Character &target, Field *gameField) override;
@@ -45,10 +47,16 @@ public:
 
 class KnightDecorator: public Decorator{
 private:
-    Hero &character;
+    Hero* character;
+    int swordPoints;
+    int armorPoints;
 
 public:
     KnightDecorator(Hero &unit);
+    int getSwordPoints() const;
+    void setSwordPoints(int points);
+    int getArmorPoints() const;
+    void setArmorPoints(int points);
     int getMoveCost() const override;
     int move(int new_x, int new_y, Field *gameField) override;
     void attack(Character &target, Field *gameField) override;

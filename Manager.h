@@ -4,7 +4,6 @@
 
 #include <string>
 #include "Field.h"
-#include "Character.h"
 
 class Manager {
 private:
@@ -16,11 +15,10 @@ public:
     Field* gameField;
 
     void generationObjects(int obst);
-    int getCurrentLevel();
+    int getCurrentLevel() const;
     void createField(int fieldWidth, int fieldHeight, int obstacles, Monster* monster);
 
     Field* getGameField() const;
-    int getCurrentLevel() const;
     Manager();
     ~Manager();
 

@@ -83,12 +83,13 @@ void display(const string& title, Character* character) {
 }*/
 void TestLab2(Manager mainManager) {
 
-    Hero* archerHero = new Hero();
-    ArcherDecorator* archerDecorator = new ArcherDecorator(*archerHero);
     Monster* hydra = new Hydra();
 
+    Hero* hero = new Hero();
+    ArcherDecorator* archerDecorator = new ArcherDecorator(hero);
+
     mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, hydra);
-    mainManager.gameField->hero = archerDecorator;
+    mainManager.gameField->hero = hero;
     mainManager.gameField->placeHero();
 
     cout << "Current level = " << mainManager.CurrentLevel << endl;
@@ -139,7 +140,7 @@ void TestLab2(Manager mainManager) {
     display("Archer Hero status after monster move", mainManager.gameField->hero);
     cout << " distance: " << mainManager.gameField->hero->getDistance() << endl;
     PrintField(mainManager.gameField);
-    delete archerHero;
+    delete archerDecorator;
 }
 
 

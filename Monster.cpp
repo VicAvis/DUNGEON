@@ -155,6 +155,10 @@ void Goblin::MonsterAttack(Hero& hero, Monster& monsters) {
     //}
 }
 
+void Goblin::MonsterMove(Hero &hero, Monster &monsters, Field *gameField) {
+    Monster::MonsterMove(hero, monsters, gameField);
+}
+
 /*
 void FarFromHeroState::Attack(Hero& hero, Monster& monsters) {
 }

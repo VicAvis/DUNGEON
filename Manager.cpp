@@ -18,7 +18,7 @@ void Manager::generationObjects(int obst) {
     gameField->placeObstacles(obst);
 }
 
-int Manager::getCurrentLevel(){
+int Manager::getCurrentLevel() const{
     return CurrentLevel;
 }
 

@@ -8,7 +8,7 @@ class Field {
 private:
     int width;
     int height;
-    Cell** cells;
+    std::vector<std::vector<Cell>> cells;
     bool isCellFreeAroundHero(int heroX, int heroY) const;
     friend void PrintField(Field*);
 
@@ -30,7 +30,6 @@ public:
     Field(Field&& other) noexcept;
     // Move Assignment Operator
     Field& operator=(Field&& other) noexcept;
-    ~Field();
 
     void moveUnit(Character &unit, int new_x, int new_y);
 

@@ -31,10 +31,7 @@ bool Field::isCellFreeAroundHero(int heroX, int heroY) const {
 }
 
 Field::Field(int m, int n) : width(m), height(n) {
-    cells = new Cell * [height];
-    for (int i = 0; i < height; ++i) {
-        cells[i] = new Cell[width];
-    }
+    cells.resize(height, std::vector<Cell>(width));
     hero = new Hero();
     monster = new Monster;
 }
@@ -72,8 +69,9 @@ void Field::placeObstacles(int obstacleCount) {
         cells[y][x].setObstacle(true);
     }
 }
+
 bool Field::isCellHasObstacle(int x, int y) {
-    return cells[x][y].hasObstacle();
+    return cells[y][x].hasObstacle();
 }
 void Field::placeNearHero() {
     int heroX = hero->getX();
@@ -103,31 +101,28 @@ void Field::placeNearHero() {
 ////    }
 //}
 
-Field::Field(const Field& other) : width(other.width), height(other.height) {
+Field::Field(Field&& other) noexcept : width(0), height(0), cells() {
+    cells.swap(other.cells);
 
-    cells = new Cell * [height];
+    width = other.width;
+    height = other.height;
 
-    for (int i = 0; i < height; ++i) {
-        cells[i] = new Cell[width];
-        for (int j = 0; j < width; ++j) {
-            cells[i][j] = other.cells[i][j];
-        }
-    }
+    other.width = 0;
+    other.height = 0;
 }
+
+
 
 Field& Field::operator=(const Field& other) {
     if (this != &other) {
-        for (int i = 0; i < height; ++i) {
-            delete[] cells[i];
-        }
-        delete[] cells;
+        cells.clear();
 
         width = other.width;
         height = other.height;
 
-        cells = new Cell * [height];
+        cells.resize(height, std::vector<Cell>(width));
+
         for (int i = 0; i < height; ++i) {
-            cells[i] = new Cell[width];
             for (int j = 0; j < width; ++j) {
                 cells[i][j] = other.cells[i][j];
             }
@@ -136,30 +131,26 @@ Field& Field::operator=(const Field& other) {
     return *this;
 }
 
-Field::Field(Field&& other) noexcept : width(0), height(0), cells(nullptr) {
-    width = other.width;
-    height = other.height;
-    cells = other.cells;
+Field::Field(const Field& other) : width(other.width), height(other.height) {
+    cells.resize(height, std::vector<Cell>(width));
 
-    other.width = 0;
-    other.height = 0;
-    other.cells = nullptr;
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            cells[i][j] = other.cells[i][j];
+        }
+    }
 }
 
 Field& Field::operator=(Field&& other) noexcept {
     if (this != &other) {
-        for (int i = 0; i < height; ++i) {
-            delete[] cells[i];
-        }
-        delete[] cells;
+        cells.clear();
 
         width = other.width;
         height = other.height;
-        cells = other.cells;
+        cells = std::move(other.cells);
 
         other.width = 0;
         other.height = 0;
-        other.cells = nullptr;
     }
     return *this;
 }
@@ -168,13 +159,13 @@ bool Field::freeCell(int x, int y) const {
     return isWithinBounds(x, y) && !cells[y][x].hasObstacle() && !cells[y][x].hasUnitPresent();
 }
 
-Field::~Field() {
-//    delete hero;
-//    delete monster;
-
-    for (int i = 0; i < height; ++i) {
-        delete[] cells[i];
-    }
-    delete[] cells;
-}
+//Field::~Field() {
+////    delete hero;
+////    delete monster;
+//
+//    for (int i = 0; i < height; ++i) {
+//        delete[] cells[i];
+//    }
+//    delete[] cells;
+//}
 
