@@ -38,7 +38,7 @@ void display(const string& title, Character* character) {
     cout << title << ":" << endl;
     cout << "position: (" << character->getX() << ", " << character->getY() << "), health: " << character->getHealth()
          << ", damage: " << character->getDamage() << ", protection: " << character->getProtection()
-         << ", speed: " << character->getSpeed();
+         << ", speed: " << character->getSpeed() << endl;
 }
 
 /*void TestLab1(Manager mainManager) {
@@ -81,17 +81,20 @@ void display(const string& title, Character* character) {
         cout << "Monster is still active" << endl;
     }
 }*/
-void TestLab2(Manager mainManager) {
-
-    Monster* hydra = new Hydra();
-
-    Hero* hero = new Hero();
-    ArcherDecorator* archerDecorator = new ArcherDecorator(hero);
-
-    mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, hydra);
-    mainManager.gameField->hero = hero;
+/*void TestLab2(Manager mainManager) {
+    cout << "\nTest started:\n";
+    Hero* archerHero = new Hero();
+    cout << "Hero created:\n";
+    ArcherDecorator* archerDecorator = new ArcherDecorator(*archerHero);
+    cout << "ArcherDecoretor created:\n";
+    Monster* OneNewMonster = new Monster();
+    cout << "Monster created:\n";
+    mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, OneNewMonster);
+    cout << "Field created:\n";
+    mainManager.gameField->hero = archerDecorator;
+    cout << "Hero changed:\n";
     mainManager.gameField->placeHero();
-
+    cout << "Hero placed:\n";
     cout << "Current level = " << mainManager.CurrentLevel << endl;
     PrintField(mainManager.gameField);
 
@@ -115,14 +118,15 @@ void TestLab2(Manager mainManager) {
     display("Monster status after attack", mainManager.gameField->monster);
     cout << ", active: " << (mainManager.gameField->monster->isActive() ? "yes" : "no") << endl << endl;
 
-    //mainManager.gameField->monster->state->Attack(*mainManager.gameField->hero, *mainManager.gameField->monster);
-    mainManager.gameField->monster->MonsterMove(*mainManager.gameField->hero, *mainManager.gameField->monster, mainManager.gameField);
+    mainManager.gameField->monster->state->Move(*mainManager.gameField->hero, mainManager.gameField);
+    //mainManager.gameField->monster->MonsterMove(*mainManager.gameField->hero, *mainManager.gameField->monster, mainManager.gameField);
     display("Archer Hero status after monster move", mainManager.gameField->hero);
     cout << " distance: " << mainManager.gameField->hero->getDistance() << endl;
-    display("Monster status after move", mainManager.gameField->monster);
+    display("Monster status after monster move", mainManager.gameField->monster);
     cout << ", active: " << (mainManager.gameField->monster->isActive() ? "yes" : "no") << endl << endl;
     PrintField(mainManager.gameField);
-    mainManager.gameField->monster->MonsterAttack(*mainManager.gameField->hero, *mainManager.gameField->monster);
+    //mainManager.gameField->monster->MonsterAttack(*mainManager.gameField->hero, *mainManager.gameField->monster);
+    mainManager.gameField->monster->state->Attack(*mainManager.gameField->hero);
 
     display("Archer Hero status after counterattack", mainManager.gameField->hero);
     cout << " distance: " << mainManager.gameField->hero->getDistance() << endl;
@@ -132,15 +136,48 @@ void TestLab2(Manager mainManager) {
     } else {
         cout << "Monster is still active" << endl;
     }
-    mainManager.gameField->monster->MonsterMove(*mainManager.gameField->hero, *mainManager.gameField->monster, mainManager.gameField);
+    //mainManager.gameField->monster->MonsterMove(*mainManager.gameField->hero, *mainManager.gameField->monster, mainManager.gameField);
+    mainManager.gameField->monster->state->Move(*mainManager.gameField->hero, mainManager.gameField);
     display("Archer Hero status after monster move", mainManager.gameField->hero);
     cout << " distance: " << mainManager.gameField->hero->getDistance() << endl;
     PrintField(mainManager.gameField);
-    mainManager.gameField->monster->MonsterMove(*mainManager.gameField->hero, *mainManager.gameField->monster, mainManager.gameField);
+    //mainManager.gameField->monster->MonsterMove(*mainManager.gameField->hero, *mainManager.gameField->monster, mainManager.gameField);
+    mainManager.gameField->monster->state->Move(*mainManager.gameField->hero, mainManager.gameField);
     display("Archer Hero status after monster move", mainManager.gameField->hero);
     cout << " distance: " << mainManager.gameField->hero->getDistance() << endl;
     PrintField(mainManager.gameField);
-    delete archerDecorator;
+    delete archerHero;
+}*/
+
+void TestLab3(Manager mainManager) {
+    cout << "\nTest started:\n";
+    Hero* archerHero = new Hero();
+    cout << "Hero created:\n";
+    ArcherDecorator* archerDecorator = new ArcherDecorator(*archerHero);
+    cout << "ArcherDecoretor created:\n";
+    Monster* OneNewMonster = new Monster();
+    cout << "Monster created:\n";
+    mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, OneNewMonster);
+    cout << "Field created:\n";
+    mainManager.gameField->hero = archerDecorator;
+    cout << "Hero changed:\n";
+    mainManager.gameField->placeHero();
+    cout << "Hero placed:\n";
+    cout << "Current level = " << mainManager.CurrentLevel << endl;
+    PrintField(mainManager.gameField);
+    cout << endl;
+    display("Hero: ", mainManager.gameField->hero);
+    display("Monster:", mainManager.gameField->monster);
+    mainManager.gameField->monster->Move(*mainManager.gameField->hero,  mainManager.gameField, *mainManager.gameField->monster);
+    PrintField(mainManager.gameField);
+    cout << endl;
+    display("Hero: ", mainManager.gameField->hero);
+    display("Monster:", mainManager.gameField->monster);
+    mainManager.gameField->monster->Move(*mainManager.gameField->hero, mainManager.gameField, *mainManager.gameField->monster);
+    PrintField(mainManager.gameField);
+    cout << endl;
+    display("Hero: ", mainManager.gameField->hero);
+    display("Monster:", mainManager.gameField->monster);
 }
 
 
@@ -150,10 +187,14 @@ int main() {
     SetConsoleOutputCP(1251);
     Manager mainManager;
 
-//    cout << "Running TestLab1:" << endl;
+//    cout << "\nRunning TestLab1:" << endl;
 //    TestLab1(mainManager);
 
-    cout << "\nRunning TestLab2:" << endl;
-    TestLab2(mainManager);
+//    cout << "\nRunning TestLab2:" << endl;
+//    TestLab2(mainManager);
+
+    cout << "\nRunning TestLab3:" << endl;
+    TestLab3(mainManager);
+
     return 0;
 }
