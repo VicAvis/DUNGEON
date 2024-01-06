@@ -71,24 +71,26 @@ int Hero::move(int new_x, int new_y, Field* gameField, int movementCost) {
 }
 
 void Hero::attack(Character& target, Field* gameField, int damageDealt, bool fromDistance) {
-    int target_x = target.getX();
-    int target_y = target.getY();
-    int deltaX = std::abs(target_x - getX());
-    int deltaY = std::abs(target_y - getY());
+    if(gameField->hero->getHealth() > 0){
+        int target_x = target.getX();
+        int target_y = target.getY();
+        int deltaX = std::abs(target_x - getX());
+        int deltaY = std::abs(target_y - getY());
 
-    if (fromDistance || (deltaX <= 1 && deltaY <= 1)) {
-        int damageNeeded = target.getProtection();
+        if (fromDistance || (deltaX <= 1 && deltaY <= 1)) {
+            int damageNeeded = target.getProtection();
 
-        if (damageDealt >= damageNeeded) {
-            target.setHealth(target.getHealth() - damageDealt);
+            if (damageDealt >= damageNeeded) {
+                target.setHealth(target.getHealth() - damageDealt);
 
-            if (target.getHealth() <= 0) {
-                target.setHealth(0);
-                gameField->eraseContent(target.getX(), target.getY());
+                if (target.getHealth() <= 0) {
+                    target.setHealth(0);
+                    gameField->eraseContent(target.getX(), target.getY());
+                }
+            } else {
             }
         } else {
         }
-    } else {
     }
 }
 
