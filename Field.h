@@ -13,7 +13,7 @@ private:
     friend void PrintField(Field*);
 
 public:
-    Hero* hero;
+    HeroBase* hero;
     Monster* monster;
     std::vector<Monster*> monsters;
     Field(int m, int n);

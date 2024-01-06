@@ -41,7 +41,7 @@ void display(const string& title, Character* character) {
          << ", speed: " << character->getSpeed() << endl;
 }
 
-void displayHero(const string& title, Hero* character) {
+void displayHero(const string& title, HeroBase* character) {
     cout << title << ":" << endl;
     cout << "position: (" << character->getX() << ", " << character->getY() << "), health: " << character->getHealth()
          << ", damage: " << character->getDamage() << ", protection: " << character->getProtection()
@@ -54,7 +54,6 @@ void displayHero(const string& title, Hero* character) {
         cout << ", number of arrows: " << character->getNumberOfArrows() << endl;
     }
 }
-
 
 /*void TestLab1(Manager mainManager) {
 
@@ -166,8 +165,8 @@ void displayHero(const string& title, Hero* character) {
 
 void TestLab3(Manager& mainManager) {
     cout << "\nTest has started:\n";
-    Hero* baseHero = new Hero();
-    Hero* archerHero = new ArcherDecorator(baseHero);
+    HeroBase* baseHero = new Hero();
+    HeroBase* archerHero = new ArcherDecorator(baseHero);
     Monster* OneNewMonster = new Monster();
     cout << "Monster is created:\n";
     mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, OneNewMonster);
@@ -214,7 +213,6 @@ void TestLab3(Manager& mainManager) {
     display("Monster", mainManager.gameField->monster);
     // added
     cout << "\n\nHero attacks the monster" << endl;
-    mainManager.gameField->moveHero(0,1);
     PrintField(mainManager.gameField);
     mainManager.gameField->hero->attack(*mainManager.gameField->monster, mainManager.gameField, 0,1);
     displayHero("Hero", mainManager.gameField->hero);
@@ -225,8 +223,8 @@ void TestLab3(Manager& mainManager) {
 
 void TestLab3_part2(Manager& mainManager){
     cout << "Now we will test the knight!" << endl;
-    Hero* baseHero = new Hero();
-    Hero* knightHero = new KnightDecorator(baseHero);
+    HeroBase* baseHero = new Hero();
+    HeroBase* knightHero = new KnightDecorator(baseHero);
     Monster* OneNewMonster = new Monster();
     mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, OneNewMonster);
     mainManager.gameField->hero = knightHero;
@@ -234,22 +232,18 @@ void TestLab3_part2(Manager& mainManager){
     PrintField(mainManager.gameField);
     mainManager.gameField->hero->diceResults();
     displayHero("Hero", mainManager.gameField->hero);
-
-    Position newPosition = {1, 1};
-    mainManager.gameField->hero->move(newPosition.x, newPosition.y, mainManager.gameField, 0);
-    cout << endl;
-    PrintField(mainManager.gameField);
-
-
-    cout << "Current level = " << mainManager.CurrentLevel << endl;
+    cout << "\n\nCurrent level = " << mainManager.CurrentLevel << endl;
     PrintField(mainManager.gameField);
     displayHero("Hero", mainManager.gameField->hero);
     mainManager.gameField->hero->diceResults();
     displayHero("Hero status after dice results", mainManager.gameField->hero);
     display("Monster", mainManager.gameField->monster);
 
-    cout << "\n\nHero attacks the monster" << endl;
     PrintField(mainManager.gameField);
+    mainManager.gameField->hero->move(3,1,mainManager.gameField,0);
+    cout << "\n\nHero moved" << endl;
+    PrintField(mainManager.gameField);
+    cout << "Hero attacks the monster" << endl;
     mainManager.gameField->hero->attack(*mainManager.gameField->monster, mainManager.gameField, 0, 0);
     displayHero("Hero", mainManager.gameField->hero);
     display("Monster", mainManager.gameField->monster);

@@ -20,7 +20,7 @@ void Monster::setState(MonsterState* newState) {
     delete state;
     state = newState;
 }
-void Monster::ChangeState(Hero& hero) {
+void Monster::ChangeState(HeroBase& hero) {
     if ((getX() == hero.getX() - 1 || getX() == hero.getX() + 1) && (getY() == hero.getY() - 1 || getY() == hero.getY() + 1)) {
         delete state;
         state = new AttackState(0);
@@ -34,24 +34,24 @@ void Monster::ChangeState(Hero& hero) {
     delete state;
     state = new FarFromHeroState(2);
 }
-void Monster::Move(Hero& hero, Field* gameField, Monster& monster) {
+void Monster::Move(HeroBase& hero, Field* gameField, Monster& monster) {
     state->Move(hero, gameField, monster);
 }
-void Monster::Attack(Hero& hero, Monster& monster) {
+void Monster::Attack(HeroBase& hero, Monster& monster) {
     state->Attack(hero, monster);
 }
 //MonsterState::MonsterState(Monster& newmonster) : monster() {
 //    this->monster = newmonster;
 //}
-void MonsterState::Attack(Hero& hero, Monster& monster) {}
-void MonsterState::Move(Hero& hero, Field* gameField, Monster& monster) {}
+void MonsterState::Attack(HeroBase& hero, Monster& monster) {}
+void MonsterState::Move(HeroBase& hero, Field* gameField, Monster& monster) {}
 
 NearHeroState::NearHeroState(int sn) : MonsterState(sn) {}
 
-void NearHeroState::Attack(Hero& hero, Monster& monster) {
+void NearHeroState::Attack(HeroBase& hero, Monster& monster) {
 
 }
-void NearHeroState::Move(Hero& hero, Field* gameField, Monster& monster) {
+void NearHeroState::Move(HeroBase& hero, Field* gameField, Monster& monster) {
     if (monster.getX() == hero.getX())
     {
         if (gameField->IsCellFree(monster.getX() + 1, monster.getY())){
@@ -74,10 +74,10 @@ void NearHeroState::Move(Hero& hero, Field* gameField, Monster& monster) {
 
 FarFromHeroState::FarFromHeroState(int sn) : MonsterState(sn) {}
 
-void FarFromHeroState::Attack(Hero& hero, Monster& monster) {
+void FarFromHeroState::Attack(HeroBase& hero, Monster& monster) {
 
 }
-void FarFromHeroState::Move(Hero& hero, Field* gameField, Monster& monster) {
+void FarFromHeroState::Move(HeroBase& hero, Field* gameField, Monster& monster) {
     int delX = hero.getX() - monster.getX(), delY = hero.getY() - monster.getY();
     if (std::abs(delX) > std::abs(delY)) {
         int newX = monster.getX() + (delX > 0 ? 1 : (delX < 0 ? -1 : 0));
@@ -94,7 +94,7 @@ void FarFromHeroState::Move(Hero& hero, Field* gameField, Monster& monster) {
 }
 AttackState::AttackState(int sn) : MonsterState(sn) {}
 
-void AttackState::Attack(Hero& hero, Monster& monster){
+void AttackState::Attack(HeroBase& hero, Monster& monster){
     int monsterDistance = std::max(std::abs(hero.getX() - monster.getX()), std::abs(hero.getY() - monster.getY()));
     int totalAttack;
     // порахувати загальну атаку тих монстрів, які знаходяться на 1 клітинку від героя
@@ -119,11 +119,11 @@ void AttackState::Attack(Hero& hero, Monster& monster){
     hero.reduceHealth(damage);
     if(hero.getProtection()) hero.setProtection(hero.getProtection() - 1);
 }
-void AttackState::Move(Hero& hero, Field* gameField, Monster& monster) {
+void AttackState::Move(HeroBase& hero, Field* gameField, Monster& monster) {
     //AttackState::Attack(hero, monster);
 }
 
-/*void Monster::MonsterMove(Hero& hero, Monster& monsters, Field* gameField) {
+/*void Monster::MonsterMove(HeroBase& hero, Monster& monsters, Field* gameField) {
     int mX = getX(), mY = getY();
     int hX = hero.getX(), hY = hero.getY();
 
@@ -161,7 +161,7 @@ void AttackState::Move(Hero& hero, Field* gameField, Monster& monster) {
     }
     // всі інші випадки - фініш
 }*/
-/*void Hydra::MonsterAttack(Hero& hero, Monster& monsters) {
+/*void Hydra::MonsterAttack(HeroBase& hero, Monster& monsters) {
     //for (auto& monster : monsters) {
     int totalAttack;
     // порахувати загальну атаку тих монстрів, які знаходяться на 1 клітинку від героя
@@ -190,10 +190,10 @@ void AttackState::Move(Hero& hero, Field* gameField, Monster& monster) {
     //}
     hero.setProtection(hero.getProtection() - 1);
 }
-void Hydra::MonsterMove(Hero& hero, Monster& monsters, Field* gameField) {
+void Hydra::MonsterMove(HeroBase& hero, Monster& monsters, Field* gameField) {
 
 }
-void Goblin::MonsterAttack(Hero& hero, Monster& monsters) {
+void Goblin::MonsterAttack(HeroBase& hero, Monster& monsters) {
     //for (auto& monster : monsters) {
     int totalAttack;
     // порахувати загальну атаку тих монстрів, які знаходяться на 1 клітинку від героя

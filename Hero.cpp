@@ -58,9 +58,9 @@ int Hero::move(int new_x, int new_y, Field* gameField, int movementCost) {
             setY(new_y);
             gameField->moveHero(new_x,new_y); // оновили поле
 
-            curSpeed -= moveCost;
-            int newDistance = getDistance() + 1;
-            setDistance(newDistance);
+            gameField->hero->setSpeed(curSpeed-moveCost);
+//            int newDistance = getDistance() + 1;
+//            setDistance(newDistance);
         }
         else{
             return -1;
@@ -70,7 +70,7 @@ int Hero::move(int new_x, int new_y, Field* gameField, int movementCost) {
     return 0;
 }
 
-void Hero::attack(Character& target, Field* gameField, int damageDealt, bool fromDistance) {
+int Hero::attack(Character& target, Field* gameField, int damageDealt, bool fromDistance) {
     if(gameField->hero->getHealth() > 0){
         int target_x = target.getX();
         int target_y = target.getY();
@@ -87,11 +87,15 @@ void Hero::attack(Character& target, Field* gameField, int damageDealt, bool fro
                     target.setHealth(0);
                     gameField->eraseContent(target.getX(), target.getY());
                 }
+                return 1;
             } else {
+                return 0;
             }
         } else {
+            return 0;
         }
     }
+    return 0;
 }
 
 
@@ -116,7 +120,7 @@ void HeroBase::restoreHealth() { setHealth(maxValue); }
 int ArcherDecorator::getNumberOfArrows() const { return numberOfArrows; }
 void ArcherDecorator::setNumberOfArrows(int arrows) { numberOfArrows = arrows; }
 
-ArcherDecorator::ArcherDecorator(Hero* unit) : character(unit), numberOfArrows(myManager.getCurrentLevel() * 4){
+ArcherDecorator::ArcherDecorator(HeroBase* unit) : character(unit), numberOfArrows(myManager.getCurrentLevel() * 4){
     setSpeed(3);
 }
 
@@ -128,12 +132,19 @@ int ArcherDecorator::move(int new_x, int new_y, Field *gameField, int movementCo
     return character->move(new_x, new_y, gameField, 0);
 }
 
-void ArcherDecorator::attack(Character &target, Field *gameField, int damageDealt, bool fromDistance) {
+int ArcherDecorator::attack(Character &target, Field *gameField, int damageDealt, bool fromDistance) {
     int damageNeeded = target.getProtection();
     int damage = std::max(0, getDamage() - damageNeeded + numberOfArrows / 2);
 
-    character->attack(target, gameField, damage,1);
-    setNumberOfArrows(getNumberOfArrows() - (numberOfArrows / 2));
+    int result = character->attack(target, gameField, damage,1);
+    if (result){
+        setNumberOfArrows(getNumberOfArrows() - (numberOfArrows / 2));
+    }
+    else
+    {
+        return 0;
+    }
+    return 0;
 }
 
 std::string ArcherDecorator::getType() const {
@@ -148,7 +159,7 @@ int ArcherDecorator::getArmorPoints() const {
     return 0;
 }
 
-KnightDecorator::KnightDecorator(Hero* unit) : character(unit), swordPoints(myManager.getCurrentLevel() + 3), armorPoints(myManager.getCurrentLevel() + 3) {
+KnightDecorator::KnightDecorator(HeroBase* unit) : character(unit), swordPoints(myManager.getCurrentLevel() + 3), armorPoints(myManager.getCurrentLevel() + 3) {
     setProtection(3);
 }
 
@@ -168,11 +179,18 @@ int KnightDecorator::move(int new_x, int new_y, Field *gameField, int movementCo
     return character->move(new_x, new_y, gameField, moveC);
 }
 
-void KnightDecorator::attack(Character &target, Field *gameField, int damageDealt, bool fromDistance) {
+int KnightDecorator::attack(Character &target, Field *gameField, int damageDealt, bool fromDistance) {
     int damageNeeded = target.getProtection();
     int damage = std::max(0, getDamage() - damageNeeded + swordPoints / 2);
-    character->attack(target, gameField, damage, 0);
-    setSwordPoints(std::max(0, getSwordPoints() - (swordPoints / 2)));
+    int result = character->attack(target, gameField, damage, 0);
+    if (result){
+        setSwordPoints(std::max(0, getSwordPoints() - (swordPoints / 2)));
+    }
+    else
+    {
+        return 0;
+    }
+    return 0;
 }
 
 std::string KnightDecorator::getType() const {

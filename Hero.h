@@ -22,7 +22,7 @@ public:
 
     void increaseDistance(int amount);
     virtual int move(int new_x, int new_y, Field* gameField, int movementCost) = 0;
-    virtual void attack(Character& target, Field* gameField, int damageDealt, bool fromDistance) = 0;
+    virtual int attack(Character& target, Field* gameField, int damageDealt, bool fromDistance) = 0;
     virtual int getMoveCost() const = 0;
     virtual std::string getType() const = 0;
     virtual int getNumberOfArrows() const = 0;
@@ -36,7 +36,7 @@ class Hero: public HeroBase{
 public:
     using HeroBase::HeroBase;
     int move(int new_x, int new_y, Field* gameField, int movementCost) override;
-    void attack(Character& target, Field* gameField, int damageDealt, bool fromDistance) override;
+    int attack(Character& target, Field* gameField, int damageDealt, bool fromDistance) override;
     int getMoveCost() const override;
     std::string getType() const override;
     int getNumberOfArrows() const override;
@@ -44,23 +44,24 @@ public:
     int getArmorPoints() const override;
 };
 
-class Decorator: public Hero{
+class Decorator : public HeroBase {
 public:
-    virtual void attack(Character& target, Field* gameField, int damageDealt, bool fromDistance) = 0;
+    virtual int attack(Character& target, Field* gameField, int damageDealt, bool fromDistance) = 0;
     virtual int move(int new_x, int new_y, Field* gameField, int movementCost) = 0;
-    int getMoveCost() const = 0;
+    virtual int getMoveCost() const = 0;
     virtual int getNumberOfArrows() const = 0;
     virtual int getSwordPoints() const = 0;
     virtual int getArmorPoints() const = 0;
 };
 
+
 class ArcherDecorator: public Decorator{
 private:
-    Hero* character;
+    HeroBase* character;
     int numberOfArrows{};
 
 public:
-    explicit ArcherDecorator(Hero* unit);
+    explicit ArcherDecorator(HeroBase* unit);
     int getNumberOfArrows() const override;
     int getSwordPoints() const override;
     int getArmorPoints() const override;
@@ -68,17 +69,17 @@ public:
     int getMoveCost() const override;
     std::string getType() const override;
     int move(int new_x, int new_y, Field* gameField, int movementCost) override;
-    void attack(Character &target, Field *gameField, int damageDealt, bool fromDistance) override;
+    int attack(Character &target, Field *gameField, int damageDealt, bool fromDistance) override;
 };
 
 class KnightDecorator: public Decorator{
 private:
-    Hero* character;
+    HeroBase* character;
     int swordPoints;
     int armorPoints;
 
 public:
-    explicit KnightDecorator(Hero* unit);
+    explicit KnightDecorator(HeroBase* unit);
     int getNumberOfArrows() const override;
     int getSwordPoints() const  override;
     void setSwordPoints(int points);
@@ -87,7 +88,7 @@ public:
     int getMoveCost() const override;
     std::string getType() const override;
     int move(int new_x, int new_y, Field *gameField, int movementCost) override;
-    void attack(Character &target, Field *gameField, int damageDealt, bool fromDistance) override;
+    int attack(Character &target, Field *gameField, int damageDealt, bool fromDistance) override;
 };
 
 #endif //HERO_H
