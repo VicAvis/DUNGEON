@@ -1,6 +1,9 @@
 #pragma once
 #ifndef CHARACTER_H
 #define CHARACTER_H
+
+#include <string>
+
 class Field;
 
 const int maxValue = 6;
@@ -29,15 +32,10 @@ public:
     void setProtection(int value);
     void setSpeed(int value);
     int getProtection() const;
-    void diceResults();
 
-    virtual int move(int new_x, int new_y, Field* gameField) = 0;
-    virtual void attack(Character& target, Field* gameField) = 0;
-    virtual int getMoveCost() const = 0;
-
-     void increaseDamage(int amount);
-     void increaseProtection(int amount);
-     void increaseHealth(int amount);
- };
+    void increaseDamage(int amount);
+    void increaseProtection(int amount);
+    void increaseHealth(int amount);
+};
 
 #endif // CHARACTER_H

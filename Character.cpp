@@ -21,17 +21,10 @@ void Character::setSpeed(int value) { speed = value; }
 void Character::increaseDamage(int amount) { setDamage(getDamage() + amount); }
 void Character::increaseProtection(int amount) { setProtection(getProtection() + amount); }
 
-void Character::diceResults() {
-    setSpeed(getSpeed() + (rand() % 6 + 1));
-    setDamage(getDamage() + (rand() % 6 + 1));
-    setProtection(getProtection() + (rand() % 6 + 1));
-}
-
 void Character::reduceHealth(int amount) {
     health -= amount;
     if (health < 0) {
         health = 0;
     }
 }
-
 

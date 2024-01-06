@@ -1,13 +1,22 @@
 #include "Field.h"
 #include <cstdlib> // for rand()
+#include <iostream>
 
 bool Field::isWithinBounds(int x, int y) const {
     return x >= 0 && x < width && y >= 0 && y < height;
 }
 
 void Field::moveHero(int x, int y) {
+    int herosOldX = hero->getX();
+    int herosOldY = hero->getY();
     if (isWithinBounds(x, y)) {
         cells[y][x].setUnitPresent(true);
+        hero->setX(x);
+        hero->setX(y);
+    }
+    if (isWithinBounds(herosOldX, herosOldY)) {
+        cells[herosOldY][herosOldX].setObstacle(false);
+        cells[herosOldY][herosOldX].setUnitPresent(false);
     }
 }
 void Field::eraseContent(int x, int y) {
@@ -168,4 +177,3 @@ bool Field::freeCell(int x, int y) const {
 //    }
 //    delete[] cells;
 //}
-

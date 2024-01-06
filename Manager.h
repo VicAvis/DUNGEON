@@ -25,4 +25,3 @@ public:
 };
 
 #endif // OOP_LAB_MANAGER_H
-

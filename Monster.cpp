@@ -55,9 +55,9 @@ void FarFromHeroState::Move(Hero& hero, Field* gameField, Monster& monster) {
     int delX = hero.getX() - monster.getX(), delY = hero.getY() - monster.getY();
     if (std::abs(delX) > std::abs(delY)) {
         int newX = monster.getX() + (delX > 0 ? 1 : (delX < 0 ? -1 : 0));
-       // if (gameField->isCellHasObstacle(newX, monster.getY())) {
-       //     return;
-       // }
+        // if (gameField->isCellHasObstacle(newX, monster.getY())) {
+        //     return;
+        // }
         gameField->moveUnit(monster, newX, monster.getY());
     }
     else {
@@ -103,17 +103,6 @@ void AttackState::Attack(Hero& hero, Monster& monster){
 }
 void AttackState::Move(Hero& hero, Field* gameField, Monster& monster) {
     AttackState::Attack(hero, monster);
-}
-
-void Monster::attack(Character &target, Field *gameField) {
-}
-
-int Monster::move(int new_x, int new_y, Field *gameField) {
-    return 0;
-}
-
-int Monster::getMoveCost() const {
-    return 0;
 }
 
 /*void Monster::MonsterMove(Hero& hero, Monster& monsters, Field* gameField) {
@@ -184,7 +173,7 @@ int Monster::getMoveCost() const {
     hero.setProtection(hero.getProtection() - 1);
 }
 void Hydra::MonsterMove(Hero& hero, Monster& monsters, Field* gameField) {
-    
+
 }
 void Goblin::MonsterAttack(Hero& hero, Monster& monsters) {
     //for (auto& monster : monsters) {
@@ -215,4 +204,3 @@ void Goblin::MonsterAttack(Hero& hero, Monster& monsters) {
     //}
 }
 */
-

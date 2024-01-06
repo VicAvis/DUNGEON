@@ -41,6 +41,21 @@ void display(const string& title, Character* character) {
          << ", speed: " << character->getSpeed() << endl;
 }
 
+void displayHero(const string& title, Hero* character) {
+    cout << title << ":" << endl;
+    cout << "position: (" << character->getX() << ", " << character->getY() << "), health: " << character->getHealth()
+         << ", damage: " << character->getDamage() << ", protection: " << character->getProtection()
+         << ", speed: " << character->getSpeed();
+    if (character->getType() == "Knight") {
+        cout << ", sword points: " << character->getSwordPoints()
+             << ", armor points: " << character->getArmorPoints() << endl;
+    }
+    else if (character->getType() == "Archer") {
+        cout << ", number of arrows: " << character->getNumberOfArrows() << endl;
+    }
+}
+
+
 /*void TestLab1(Manager mainManager) {
 
     mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, 1);
@@ -149,37 +164,81 @@ void display(const string& title, Character* character) {
     delete archerHero;
 }*/
 
-void TestLab3(Manager mainManager) {
-    cout << "\nTest started:\n";
-    Hero* archerHero = new Hero();
-    cout << "Hero created:\n";
-    ArcherDecorator* archerDecorator = new ArcherDecorator(*archerHero);
-    cout << "ArcherDecoretor created:\n";
+void TestLab3(Manager& mainManager) {
+    cout << "\nTest has started:\n";
+    cout << "Hero is created:\n";
+    Hero* baseHero = new Hero();
+    cout << "ArcherDecorator is created:\n";
+    Hero* archerHero = new ArcherDecorator(baseHero);
     Monster* OneNewMonster = new Monster();
-    cout << "Monster created:\n";
+    cout << "Monster is created:\n";
     mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, OneNewMonster);
-    cout << "Field created:\n";
-    mainManager.gameField->hero = archerDecorator;
+    cout << "Field is created:\n";
+    mainManager.gameField->hero = archerHero;
     cout << "Hero changed:\n";
     mainManager.gameField->placeHero();
-    cout << "Hero placed:\n";
+    cout << "Hero is placed:\n";
     cout << "Current level = " << mainManager.CurrentLevel << endl;
     PrintField(mainManager.gameField);
     cout << endl;
-    display("Hero: ", mainManager.gameField->hero);
-    display("Monster:", mainManager.gameField->monster);
+    cout << endl;
+    displayHero("Hero", mainManager.gameField->hero);
+    mainManager.gameField->hero->diceResults();
+    displayHero("Hero status after dice results", mainManager.gameField->hero);
+    display("Monster", mainManager.gameField->monster);
     mainManager.gameField->monster->Move(*mainManager.gameField->hero,  mainManager.gameField, *mainManager.gameField->monster);
     PrintField(mainManager.gameField);
     cout << endl;
-    display("Hero: ", mainManager.gameField->hero);
-    display("Monster:", mainManager.gameField->monster);
+    displayHero("Hero", mainManager.gameField->hero);
+    display("Monster", mainManager.gameField->monster);
     mainManager.gameField->monster->Move(*mainManager.gameField->hero, mainManager.gameField, *mainManager.gameField->monster);
     PrintField(mainManager.gameField);
     cout << endl;
-    display("Hero: ", mainManager.gameField->hero);
-    display("Monster:", mainManager.gameField->monster);
+    displayHero("Hero", mainManager.gameField->hero);
+    display("Monster", mainManager.gameField->monster);
+    cout << "\n\nHero attacks the monster" << endl;
+    mainManager.gameField->moveHero(0,1);
+    PrintField(mainManager.gameField);
+    mainManager.gameField->hero->attack(*mainManager.gameField->monster, mainManager.gameField, 0,1);
+    displayHero("Hero", mainManager.gameField->hero);
+    display("Monster", mainManager.gameField->monster);
+    PrintField(mainManager.gameField);
+    cout << "\n\n\n\n" << endl;
 }
 
+void TestLab3_part2(Manager& mainManager){
+    cout << "Now we will test the knight!" << endl;
+    Hero* baseHero = new Hero();
+    Hero* knightHero = new KnightDecorator(baseHero);
+    Monster* OneNewMonster = new Monster();
+    mainManager.createField(FIELD_SIZE, FIELD_SIZE, 2, OneNewMonster);
+    mainManager.gameField->hero = knightHero;
+    mainManager.gameField->placeHero();
+    PrintField(mainManager.gameField);
+    mainManager.gameField->hero->diceResults();
+    displayHero("Hero", mainManager.gameField->hero);
+
+    Position newPosition = {1, 1};
+    mainManager.gameField->hero->move(newPosition.x, newPosition.y, mainManager.gameField, 0);
+    cout << endl;
+    PrintField(mainManager.gameField);
+
+
+    cout << "Current level = " << mainManager.CurrentLevel << endl;
+    PrintField(mainManager.gameField);
+    displayHero("Hero", mainManager.gameField->hero);
+    mainManager.gameField->hero->diceResults();
+    displayHero("Hero status after dice results", mainManager.gameField->hero);
+    display("Monster", mainManager.gameField->monster);
+
+    cout << "\n\nHero attacks the monster" << endl;
+    PrintField(mainManager.gameField);
+    mainManager.gameField->hero->attack(*mainManager.gameField->monster, mainManager.gameField, 0, 0);
+    displayHero("Hero", mainManager.gameField->hero);
+    display("Monster", mainManager.gameField->monster);
+    PrintField(mainManager.gameField);
+
+}
 
 int main() {
     srand(static_cast<unsigned int>(time(NULL)));
@@ -195,6 +254,9 @@ int main() {
 
     cout << "\nRunning TestLab3:" << endl;
     TestLab3(mainManager);
+
+    cout << "\nRunning TestLab3_part2:" << endl;
+    TestLab3_part2(mainManager);
 
     return 0;
 }

@@ -16,11 +16,8 @@ public:
     bool isActive() const;
     //virtual void MonsterAttack(Hero &hero);
     //virtual void MonsterMove(Hero& hero, Monster& monsters, Field* gameField);
-    int move(int new_x, int new_y, Field* gameField) override;
-    void attack(Character& target, Field* gameField) override;
     virtual void Attack(Hero& hero, Monster& monster);
     virtual void Move(Hero& hero, Field* gameField, Monster& monster);
-    int getMoveCost() const override;
     void setState(MonsterState* newState);
     ~Monster();
 };
