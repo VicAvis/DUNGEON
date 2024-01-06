@@ -11,7 +11,6 @@ protected:
     int moveCost{};
 
 public:
-
     using Character::Character;
     HeroBase() noexcept;
 
@@ -21,6 +20,7 @@ public:
     void diceResults();
 
     void increaseDistance(int amount);
+    void restoreHealth();
     virtual int move(int new_x, int new_y, Field* gameField, int movementCost) = 0;
     virtual int attack(Character& target, Field* gameField, int damageDealt, bool fromDistance) = 0;
     virtual int getMoveCost() const = 0;
@@ -28,8 +28,6 @@ public:
     virtual int getNumberOfArrows() const = 0;
     virtual int getSwordPoints() const = 0;
     virtual int getArmorPoints() const = 0;
-
-    void restoreHealth();
 };
 
 class Hero: public HeroBase{
