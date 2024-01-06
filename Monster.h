@@ -5,11 +5,11 @@
 #include "Character.h"
 class Hero;
 class MonsterState;
-class FarFromHeroState;
+
 class Monster : public Character {
 public:
     MonsterState* state;
-    void ChangeState();
+    void ChangeState(Hero& hero);
     //using MonsterContainer = std::array<Monster, 3>;
     using Character::Character;
     Monster(); // noexcept;
@@ -26,7 +26,8 @@ class MonsterState {
 protected:
 public:
     //Monster monster;
-    //MonsterState() : monster() {}
+    int StateName;
+    MonsterState(int sn) : StateName(sn) {}
     //MonsterState(Monster& newmonster);
     virtual void Attack(Hero& hero, Monster& monster); //, Monster& monster
     virtual void Move(Hero& hero, Field* gameField, Monster& monster);
@@ -34,21 +35,26 @@ public:
 
 class AttackState : public MonsterState {
 public:
-    //AttackState(Monster& newmonster) : MonsterState(newmonster){}
+
+    //int StateName;
+    AttackState(int sn);
     virtual void Attack(Hero& hero, Monster& monster);
     virtual void Move(Hero& hero, Field* gameField, Monster& monster);
 };
 
 class NearHeroState : public MonsterState {
 public:
-    //NearHeroState(Monster& newmonster) : MonsterState(newmonster) {}
+
+    //int StateName;
+    NearHeroState(int sn);
     virtual void Attack(Hero& hero, Monster& monster);
     virtual void Move(Hero& hero, Field* gameField, Monster& monster);
 };
 
 class FarFromHeroState : public MonsterState {
 public:
-    //FarFromHeroState(Monster& newmonster) : MonsterState(newmonster) {}
+    //int StateName; 
+    FarFromHeroState(int sn);
     virtual void Attack(Hero& hero, Monster& monster);
     virtual void Move(Hero& hero, Field* gameField, Monster& monster);
 };

@@ -4,9 +4,8 @@
 
 bool Monster::isActive() const { return getHealth() != 0; }
 
-Monster::Monster(){// noexcept {
-    Manager main;
-    this->state = new FarFromHeroState();//
+Monster::Monster(){
+    this->state = new FarFromHeroState(2);
     setSpeed(6);
     setProtection(1);
     setDamage(6);
@@ -21,7 +20,20 @@ void Monster::setState(MonsterState* newState) {
     delete state;
     state = newState;
 }
-
+void Monster::ChangeState(Hero& hero) {
+    if ((getX() == hero.getX() - 1 || getX() == hero.getX() + 1) && (getY() == hero.getY() - 1 || getY() == hero.getY() + 1)) {
+        delete state;
+        state = new AttackState(0);
+        return;
+    }
+    if ((getX() == hero.getX() && (getY() == hero.getY() - 1 || getY() == hero.getY() + 1)) || (getY() == hero.getY() && (getX() == hero.getX() - 1 || getX() == hero.getX() + 1))) {
+        delete state;
+        state = new NearHeroState(1);
+        return;
+    }
+    delete state;
+    state = new FarFromHeroState(2);
+}
 void Monster::Move(Hero& hero, Field* gameField, Monster& monster) {
     state->Move(hero, gameField, monster);
 }
@@ -34,20 +46,34 @@ void Monster::Attack(Hero& hero, Monster& monster) {
 void MonsterState::Attack(Hero& hero, Monster& monster) {}
 void MonsterState::Move(Hero& hero, Field* gameField, Monster& monster) {}
 
+NearHeroState::NearHeroState(int sn) : MonsterState(sn) {}
+
 void NearHeroState::Attack(Hero& hero, Monster& monster) {
 
 }
 void NearHeroState::Move(Hero& hero, Field* gameField, Monster& monster) {
     if (monster.getX() == hero.getX())
     {
-        gameField->moveUnit(monster, monster.getX() + 1, monster.getY());
-        return;
+        if (gameField->IsCellFree(monster.getX() + 1, monster.getY())){
+            gameField->moveUnit(monster, monster.getX() + 1, monster.getY());
+        }
+        else {
+            gameField->moveUnit(monster, monster.getX() - 1, monster.getY());
+        }
     }
     else {
-        gameField->moveUnit(monster, monster.getX(), monster.getY() + 1);
-        return;
+        if (gameField->IsCellFree(monster.getX() , monster.getY() + 1)) {
+            gameField->moveUnit(monster, monster.getX(), monster.getY() + 1);
+        }
+        else {
+            gameField->moveUnit(monster, monster.getX(), monster.getY() - 1);
+        }
     }
+    monster.setState(new AttackState(0));
 }
+
+FarFromHeroState::FarFromHeroState(int sn) : MonsterState(sn) {}
+
 void FarFromHeroState::Attack(Hero& hero, Monster& monster) {
 
 }
@@ -64,15 +90,9 @@ void FarFromHeroState::Move(Hero& hero, Field* gameField, Monster& monster) {
         int newY = monster.getY() + (delY > 0 ? 1 : (delY < 0 ? -1 : 0));
         gameField->moveUnit(monster, monster.getX(), newY);
     }
-    if ((monster.getX() == hero.getX() - 1 || monster.getX() == hero.getX() + 1) && (monster.getY() == hero.getY() - 1 || monster.getY() == hero.getY() + 1)) {
-        monster.state = new AttackState();
-        return;
-    }
-    if ((monster.getX() == hero.getX() && (monster.getY() == hero.getY() - 1 || monster.getY() == hero.getY() + 1)) || (monster.getY() == hero.getY() && (monster.getX() == hero.getX() - 1 || monster.getX() == hero.getX() + 1))) {
-        monster.state = new NearHeroState();
-        return;
-    }
+    monster.ChangeState(hero);
 }
+AttackState::AttackState(int sn) : MonsterState(sn) {}
 
 void AttackState::Attack(Hero& hero, Monster& monster){
     int monsterDistance = std::max(std::abs(hero.getX() - monster.getX()), std::abs(hero.getY() - monster.getY()));
@@ -89,20 +109,18 @@ void AttackState::Attack(Hero& hero, Monster& monster){
     else {
         return;
     }
-
-    int heroDefense = hero.getProtection();
     int damage;
-
-    if (totalAttack > heroDefense) {
-        damage = totalAttack - heroDefense;
+    if (totalAttack > hero.getProtection()) {
+        damage = totalAttack - hero.getProtection();
     }
     else {
         damage = 0;
     }
     hero.reduceHealth(damage);
+    if(hero.getProtection()) hero.setProtection(hero.getProtection() - 1);
 }
 void AttackState::Move(Hero& hero, Field* gameField, Monster& monster) {
-    AttackState::Attack(hero, monster);
+    //AttackState::Attack(hero, monster);
 }
 
 /*void Monster::MonsterMove(Hero& hero, Monster& monsters, Field* gameField) {

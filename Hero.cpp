@@ -35,7 +35,7 @@ void HeroBase::increaseDistance(int amount) { setDistance(getDistance() + amount
 int Hero::getMoveCost() const { return moveCost; }
 int Hero::move(int new_x, int new_y, Field* gameField, int movementCost) {
     //std::cout << "X" <<  gameField->hero->getX() << "Y " << gameField->hero->getY() << std::endl;
-    if (gameField->freeCell(new_x, new_y)) {
+    if (gameField->IsCellFree(new_x, new_y)) {
         int deltaX = std::abs(new_x - gameField->hero->getX());
         int deltaY = std::abs(new_y - gameField->hero->getY());
         int moveCost = 0;

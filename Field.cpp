@@ -51,7 +51,6 @@ void Field::placeHero() {
     hero->setX(x);
     hero->setY(y);
     moveUnit(*hero, x, y);
-    cells[y][x].setUnitPresent(true);
 }
 
 void Field::moveUnit(Character& unit, int new_x, int new_y) {
@@ -79,19 +78,20 @@ void Field::placeObstacles(int obstacleCount) {
     }
 }
 
-bool Field::isCellHasObstacle(int x, int y) {
-    return cells[y][x].hasObstacle();
-}
+//bool Field::isCellHasObstacle(int x, int y) {
+//    return cells[y][x].hasObstacle();
+//}
 void Field::placeNearHero() {
     int heroX = hero->getX();
     int heroY = hero->getY();
     //int newX, newY;
     //newX=rand()%
-    if (isWithinBounds(heroX + 2, heroY) && freeCell(heroX + 2, heroY)) {
+    if (isWithinBounds(heroX + 2, heroY) && IsCellFree(heroX + 2, heroY)) {
         //monster->setY(heroY + 2);
         moveUnit(*monster, heroX + 2, heroY);
         return;
     }
+    monster->ChangeState(*hero);
     //else placeNearHero();
 }
 
@@ -164,7 +164,7 @@ Field& Field::operator=(Field&& other) noexcept {
     return *this;
 }
 
-bool Field::freeCell(int x, int y) const {
+bool Field::IsCellFree(int x, int y) const {
     return isWithinBounds(x, y) && !cells[y][x].hasObstacle() && !cells[y][x].hasUnitPresent();
 }
 
