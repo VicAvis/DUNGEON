@@ -52,7 +52,6 @@ public:
     virtual int getArmorPoints() const = 0;
 };
 
-
 class ArcherDecorator: public Decorator{
 private:
     HeroBase* character;

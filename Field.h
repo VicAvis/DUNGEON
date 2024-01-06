@@ -22,14 +22,6 @@ public:
     void placeHero();
     void placeObstacles(int obstacleCount);
     bool IsCellFree(int x, int y) const;
-    // Copy Constructor
-    Field(const Field& other);
-    // Copy Assignment Operator
-    Field& operator=(const Field& other);
-    // Move Constructor
-    Field(Field&& other) noexcept;
-    // Move Assignment Operator
-    Field& operator=(Field&& other) noexcept;
 
     void moveUnit(Character &unit, int new_x, int new_y);
 

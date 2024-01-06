@@ -110,60 +110,6 @@ void Field::placeNearHero() {
 ////    }
 //}
 
-Field::Field(Field&& other) noexcept : width(0), height(0), cells() {
-    cells.swap(other.cells);
-
-    width = other.width;
-    height = other.height;
-
-    other.width = 0;
-    other.height = 0;
-}
-
-
-
-Field& Field::operator=(const Field& other) {
-    if (this != &other) {
-        cells.clear();
-
-        width = other.width;
-        height = other.height;
-
-        cells.resize(height, std::vector<Cell>(width));
-
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                cells[i][j] = other.cells[i][j];
-            }
-        }
-    }
-    return *this;
-}
-
-Field::Field(const Field& other) : width(other.width), height(other.height) {
-    cells.resize(height, std::vector<Cell>(width));
-
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            cells[i][j] = other.cells[i][j];
-        }
-    }
-}
-
-Field& Field::operator=(Field&& other) noexcept {
-    if (this != &other) {
-        cells.clear();
-
-        width = other.width;
-        height = other.height;
-        cells = std::move(other.cells);
-
-        other.width = 0;
-        other.height = 0;
-    }
-    return *this;
-}
-
 bool Field::IsCellFree(int x, int y) const {
     return isWithinBounds(x, y) && !cells[y][x].hasObstacle() && !cells[y][x].hasUnitPresent();
 }

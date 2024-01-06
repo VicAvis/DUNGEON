@@ -214,7 +214,7 @@ void TestLab3(Manager& mainManager) {
     // added
     cout << "\n\nHero attacks the monster" << endl;
     PrintField(mainManager.gameField);
-    mainManager.gameField->hero->attack(*mainManager.gameField->monster, mainManager.gameField, 0,1);
+    mainManager.gameField->hero->attack(*mainManager.gameField->monster, mainManager.gameField, 0,0);
     displayHero("Hero", mainManager.gameField->hero);
     display("Monster", mainManager.gameField->monster);
     PrintField(mainManager.gameField);
@@ -245,7 +245,6 @@ void TestLab3_part2(Manager& mainManager){
     displayHero("Hero", mainManager.gameField->hero);
     display("Monster", mainManager.gameField->monster);
     PrintField(mainManager.gameField);
-
 }
 
 void TestLab3_part3(Manager& mainManager){
@@ -264,7 +263,7 @@ void TestLab3_part3(Manager& mainManager){
     display("Monster", mainManager.gameField->monster);
 
     PrintField(mainManager.gameField);
-    mainManager.gameField->hero->move(3,1,mainManager.gameField,0);
+    mainManager.gameField->hero->move(0,1,mainManager.gameField,0);
     cout << "\n\nHero moved" << endl;
     PrintField(mainManager.gameField);
     cout << "Hero attacks the monster" << endl;
@@ -272,7 +271,6 @@ void TestLab3_part3(Manager& mainManager){
     displayHero("Hero", mainManager.gameField->hero);
     display("Monster", mainManager.gameField->monster);
     PrintField(mainManager.gameField);
-
 }
 
 int main() {

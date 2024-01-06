@@ -200,6 +200,3 @@ std::string KnightDecorator::getType() const {
 int KnightDecorator::getNumberOfArrows() const {
     return 0;
 }
-
-
-

@@ -1,6 +1,4 @@
-#include <cstdlib>
 #include "Character.h"
-#include "Hero.h"
 
 void Character::setProtection(int value) { protection = value; }
 int Character::getProtection() const { return protection; }
